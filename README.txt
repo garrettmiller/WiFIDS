@@ -9,9 +9,17 @@ INSTALLING:
 =========================================================
 Dependencies Required:
 
-apt-get -y install python, libssl-dev, iw, aircrack-ng, python-scapy, tcpdump
+Python 2.X
+Aircrack-ng 1.2+
+libssl-dev
+python-scapy
+tcpdump
+libpcap 0.8+
 
-If Aircrack-ng not in repositories, build from source with make && make install.
+Setup (on Debian-like OS):
+sudo apt-get -y install python, libssl-dev, iw, aircrack-ng, python-scapy, tcpdump
+
+If Aircrack-ng is not in repositories, build from source with make && sudo make install.
 
 =========================================================
 RUNNING:
