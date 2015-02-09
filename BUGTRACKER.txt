@@ -1,3 +1,12 @@
-2015-02-09 - Garrett:
+==========================================
+OUTSTANDING:
+==========================================
+
+
+
+==========================================
+FIXED:
+==========================================
+2015-02-09 - Garrett
 	main.py is using 100% of memory and swap after 20-30 minutes of running, rendering pi inoperable. 
 	Suggest increasing RAM or making script more efficient (or both).

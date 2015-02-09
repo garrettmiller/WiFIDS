@@ -21,15 +21,15 @@ proc = subprocess.call(['airmon-ng', 'stop', 'mon0', 'mon1', 'mon2', 'mon3'], st
 #Put wlan0 into monitor mode.
 proc = subprocess.call(['airmon-ng', 'start', 'wlan0'], stdout=subprocess.PIPE)
 
-# Declare a Python list to keep track of client MAC addresses
-observedclients = []
-
 # THIS SECTION FOR LEARNING PURPOSES ONLY
 # SOME EXAMPLE CODE BORROWED FROM http://pen-testing.sans.org/blog/2011/10/13/special-request-wireless-client-sniffing-with-scapy
 
+# Declare a Python list to keep track of client MAC addresses
+observedclients = []
+
 # The sniffmgmt() function is called each time Scapy receives a packet
 def sniffmgmt(p):
-
+	
 	# Define our tuple (an immutable list) of the 3 management frame
 	# subtypes sent exclusively by clients. I got this list from Wireshark.
 	stamgmtstypes = (0, 2, 4)
@@ -39,7 +39,7 @@ def sniffmgmt(p):
 
 		# Check to make sure this is a management frame (type=0) and that
 		# the subtype is one of our management frame subtypes indicating a
-		# a wireless client
+		# wireless client
 		if p.type == 0 and p.subtype in stamgmtstypes:
 
 			# Check our list and if client isn't there, add to list.
@@ -47,5 +47,4 @@ def sniffmgmt(p):
 				print(p.addr2)
 				observedclients.append(p.addr2)
 
-sniff(iface='mon0', prn=sniffmgmt)
-
+sniff(iface='mon0', prn=sniffmgmt, store=0)
