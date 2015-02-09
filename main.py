@@ -15,7 +15,7 @@ from time import sleep
 if os.geteuid() != 0:
 	exit("You need to have root privileges to run WiFIDS.\nPlease try again, but with 'sudo'. Exiting.")
 
-#Clean up any leftover running airmon-ng, airodump
+#Clean up any leftover running airmon-ng
 proc = subprocess.call(['airmon-ng', 'stop', 'mon0', 'mon1', 'mon2', 'mon3'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 #Put wlan0 into monitor mode.
