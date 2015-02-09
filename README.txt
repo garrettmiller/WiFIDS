@@ -15,9 +15,14 @@ libssl-dev
 python-scapy
 tcpdump
 libpcap 0.8+
+python-netaddr
 
 Setup (on Debian-like OS):
-sudo apt-get -y install python, libssl-dev, iw, aircrack-ng, python-scapy, tcpdump
+sudo apt-get -y install python libssl-dev iw aircrack-ng python-scapy tcpdump python-netaddr
+
+(For OUI lookup)
+cd /usr/share/pyshared/netaddr/eui
+sudo python ./ieee.py
 
 If Aircrack-ng is not in repositories, build from source with make && sudo make install.
 

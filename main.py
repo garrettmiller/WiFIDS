@@ -9,7 +9,7 @@
 import os #Needed to check UID for root.
 import subprocess #Needed for system calls
 from scapy.all import * #Needed to do 802.11 stuff
-from time import sleep
+from netaddr import * #Needed for OUI lookup
 
 #Check to see if we're root
 if os.geteuid() != 0:
@@ -42,8 +42,10 @@ def sniffmgmt(p):
 		if p.type == 0 and p.subtype in managementFrameTypes:
 
 			# Check our list and if client isn't there, add to list.
+			# Also perform OUI lookup on MAC.
 			if p.addr2 not in observedClients:
-				print(p.addr2)
+				mac = EUI(p.addr2)
+				print p.addr2 +  " -- " + mac.oui.registration().org
 				observedClients.append(p.addr2)
 
 #Actually run the sniffer. store=0 is required to keep memory from filling with packets.
