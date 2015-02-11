@@ -10,22 +10,16 @@ INSTALLING:
 Dependencies Required:
 
 Python 2.X
-Aircrack-ng 1.2+
 libssl-dev
-python-scapy
+iw
 tcpdump
 libpcap 0.8+
 python-netaddr
 python-colorama
+python-scapy
 
 Setup (on Debian-like OS):
-sudo apt-get -y install python libssl-dev iw aircrack-ng python-scapy tcpdump python-netaddr python-colorama
-
-(For OUI lookup)
-cd /usr/share/pyshared/netaddr/eui
-sudo python ./ieee.py
-
-If Aircrack-ng is not in repositories, build from source with make && sudo make install.
+sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama && cd /usr/share/pyshared/netaddr/eui && sudo python ./ieee.py
 
 =========================================================
 RUNNING:
