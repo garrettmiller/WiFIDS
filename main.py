@@ -53,7 +53,7 @@ def sniffmgmt(p):
 			# Also perform OUI lookup on MAC. Checks for invalid OUI.
 			if p.addr2 not in observedClients:
 				try:
-					oui = mac.oui.registration().org
+					oui = EUI(p.addr2).oui.registration().org
 				except:
 					oui = "Invalid OUI"
 				print p.addr2 +  " -- " + oui
@@ -71,7 +71,7 @@ def sniffmgmt(p):
 				if authorizedFlag == 1:
 					print "Authorized Device - " + str(mac)
 				else:
-					print "Warning! Device " + str(mac) + " is unauthorized!"
+					print "!!!WARNING - Device " + str(mac) + " is unauthorized!!!"
 				
 #Actually run the sniffer. store=0 is required to keep memory from filling with packets.
 sniff(iface='mon0', prn=sniffmgmt, store=0)
