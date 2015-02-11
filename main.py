@@ -63,11 +63,11 @@ def sniffmgmt(p):
 			# Also perform OUI lookup on MAC. Checks for invalid OUI.
 			if p.addr2 not in observedClients:
 				try:
-					oui = EUI(p.addr2).oui.registration().org
+					oui = EUI(mac).oui.registration().org
 				except:
 					oui = "Invalid OUI"
-				print p.addr2 +  " -- " + oui
-				observedClients.append(p.addr2)
+				print mac +  " -- " + oui
+				observedClients.append(mac)
 
 				#Iterate through config file items to see if device is authorized.
 				for key, authorizedClient in authorizedClients:
