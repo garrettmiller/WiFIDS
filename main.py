@@ -12,6 +12,10 @@ from scapy.all import * #Needed to do 802.11 stuff
 from netaddr import * #Needed for OUI lookup
 import ConfigParser #Needed to parse config file
 import string #Needed to work with strings
+from colorama import Fore, init # Needed for terminal colorization
+
+#Improves colorization compatibility, autoresets color after print.
+init(autoreset=True)
 
 #Check to see if we're root
 if os.geteuid() != 0:
@@ -69,9 +73,9 @@ def sniffmgmt(p):
 					
 				#Perform appropriate action.
 				if authorizedFlag == 1:
-					print "Authorized Device - " + str(mac)
+					print Fore.GREEN + "Authorized Device - " + str(mac)
 				else:
-					print "!!!WARNING - Device " + str(mac) + " is unauthorized!!!"
+					print Fore.RED + "!!!WARNING - Device " + str(mac) + " is unauthorized!!!"
 				
 #Actually run the sniffer. store=0 is required to keep memory from filling with packets.
 sniff(iface='mon0', prn=sniffmgmt, store=0)

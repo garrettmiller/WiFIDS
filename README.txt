@@ -16,9 +16,10 @@ python-scapy
 tcpdump
 libpcap 0.8+
 python-netaddr
+python-colorama
 
 Setup (on Debian-like OS):
-sudo apt-get -y install python libssl-dev iw aircrack-ng python-scapy tcpdump python-netaddr
+sudo apt-get -y install python libssl-dev iw aircrack-ng python-scapy tcpdump python-netaddr python-colorama
 
 (For OUI lookup)
 cd /usr/share/pyshared/netaddr/eui
