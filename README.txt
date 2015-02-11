@@ -19,6 +19,7 @@ python-colorama
 python-scapy
 
 Setup (on Debian-like OS):
+
 sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama && cd /usr/share/pyshared/netaddr/eui && sudo python ./ieee.py
 
 =========================================================

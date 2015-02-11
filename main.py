@@ -8,6 +8,8 @@
 
 import os #Needed to check UID for root.
 import subprocess #Needed for system calls
+import logging #Needed for logging tasks
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR) #Suppress initial Scapy IPv6 warning
 from scapy.all import * #Needed to do 802.11 stuff
 from netaddr import * #Needed for OUI lookup
 import ConfigParser #Needed to parse config file
@@ -26,7 +28,7 @@ cleanup = subprocess.call(['iw', 'dev', 'mon0', 'del'], stdout=subprocess.PIPE, 
 startmon = subprocess.call(['iw', 'dev', 'wlan0', 'interface', 'add', 'mon0', 'type', 'monitor'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 monup = subprocess.call(['ifconfig', 'mon0', 'up'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-# Read Configuration File and define lists
+# Read Configuration File and define lists 
 config = ConfigParser.RawConfigParser()
 config.read('config.cfg')
 alertContacts = config.items("AlertContacts")
@@ -53,6 +55,9 @@ def sniffmgmt(p):
 
 			#Set MAC to what we received
 			mac = p.addr2
+			
+			#Define RSSI, we have to manually carve this out.
+			rssi = (ord(p.notdecoded[-4:-3])-256)
 
 			# Check our list and if client isn't there, add to list.
 			# Also perform OUI lookup on MAC. Checks for invalid OUI.
@@ -74,9 +79,9 @@ def sniffmgmt(p):
 					
 				#Perform appropriate action.
 				if authorizedFlag == 1:
-					print Fore.GREEN + "Authorized Device - " + str(mac)
+					print Fore.GREEN + "Authorized Device - " + str(mac) + " RSSI: " + str(rssi)
 				else:
-					print Fore.RED + "!!!WARNING - Device " + str(mac) + " is unauthorized!!!"
+					print Fore.RED + "!!!WARNING - Device " + str(mac) + " is unauthorized!!!" + " RSSI: " + str(rssi)
 				
 #Actually run the sniffer. store=0 is required to keep memory from filling with packets.
 sniff(iface='mon0', prn=sniffmgmt, store=0)
