@@ -15,6 +15,8 @@ from netaddr import * #Needed for OUI lookup
 import ConfigParser #Needed to parse config file
 import string #Needed to work with strings
 from colorama import Fore, init # Needed for terminal colorization
+import smtplib #Needed for sending alerts
+from email.mime.text import MIMEText #Needed for sending alerts
 
 #Improves colorization compatibility, autoresets color after print.
 init(autoreset=True)
@@ -34,10 +36,36 @@ config.read('config.cfg')
 alertContacts = config.items("AlertContacts")
 authorizedClients = config.items("AuthorizedClients")
 
-# Declare a Python list to keep track of client MAC addresses
+#Declare empty list for observed clients 
 observedClients = []
 
-# The sniffmgmt() function is called each time Scapy receives a packet
+def sendmail(recipient, mac, oui):
+	sender = 'cmuwifids@gmail.com'
+
+	message = """From: WiFIDS <cmuwifids@gmail.com>
+	To: """ + recipient +  """
+	Subject: Unauthorized Intrusion Detected!
+
+	An unauthorized intrusion was detected into the secure area.  Intruder details:
+
+	Location: Front Door
+	MAC Address: """ + str(mac) + """
+	Device Type: """ + oui + """
+
+	A photo of the intrusion is attached.
+	"""
+
+	try:
+		server = smtplib.SMTP('smtp.gmail.com:587')
+		server.starttls()
+		server.login('cmuwifids','thepythonrappers!')
+		server.sendmail(sender, recipient, message)
+		print "Successfully sent email to " + recipient
+		server.quit()
+	except:
+		print "Error: unable to send email to " + recipient
+
+# The sniffmgmt() function is called each time Scapy receives a packet so we have to define it
 def sniffmgmt(p):
 	#Reinitialize "authorizedFlag"
 	authorizedFlag = 0
@@ -55,7 +83,7 @@ def sniffmgmt(p):
 
 			#Set MAC to what we received
 			mac = p.addr2
-			
+
 			#Define RSSI, we have to manually carve this out.
 			rssi = (ord(p.notdecoded[-4:-3])-256)
 
@@ -76,12 +104,15 @@ def sniffmgmt(p):
 						break
 					else:
 						authorizedFlag = 0
-					
+
 				#Perform appropriate action.
 				if authorizedFlag == 1:
 					print Fore.GREEN + "Authorized Device - " + str(mac) + " RSSI: " + str(rssi)
 				else:
 					print Fore.RED + "!!!WARNING - Device " + str(mac) + " is unauthorized!!!" + " RSSI: " + str(rssi)
-				
+					#Send Email
+					for key, alertContact in alertContacts:
+						#sendmail(alertContact, mac, oui)
+
 #Actually run the sniffer. store=0 is required to keep memory from filling with packets.
 sniff(iface='mon0', prn=sniffmgmt, store=0)
