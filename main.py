@@ -39,31 +39,29 @@ authorizedClients = config.items("AuthorizedClients")
 #Declare empty list for observed clients 
 observedClients = []
 
-def sendmail(recipient, mac, oui):
-	sender = 'cmuwifids@gmail.com'
-
-	message = """From: WiFIDS <cmuwifids@gmail.com>
-	To: """ + recipient +  """
-	Subject: Unauthorized Intrusion Detected!
-
-	An unauthorized intrusion was detected into the secure area.  Intruder details:
+def sendmail(recipients, mac, oui):
+	sender= "cmuwifids@gmail.com"
+	message = MIMEText("""An unauthorized intrusion was detected into the secure area.  Intruder details:
 
 	Location: Front Door
 	MAC Address: """ + str(mac) + """
 	Device Type: """ + oui + """
 
 	A photo of the intrusion is attached.
-	"""
-
+	""")
+	message['Subject'] = "[WiFIDS] Unauthorized Intrusion Detected!"
+	message['From'] = "WiFIDS <cmuwifids@gmail.com>"
+	message['To'] = str(', '.join(recipients))
+	
 	try:
 		server = smtplib.SMTP('smtp.gmail.com:587')
 		server.starttls()
 		server.login('cmuwifids','thepythonrappers!')
-		server.sendmail(sender, recipient, message)
-		print "Successfully sent email to " + recipient
+		server.sendmail(sender, recipients, str(message))
+		print "Successfully sent email to " + str(', '.join(recipients))
 		server.quit()
 	except:
-		print "Error: unable to send email to " + recipient
+		print "Error: unable to send email to " + str(', '.join(recipients))
 
 # The sniffmgmt() function is called each time Scapy receives a packet so we have to define it
 def sniffmgmt(p):
@@ -93,7 +91,7 @@ def sniffmgmt(p):
 				try:
 					oui = EUI(mac).oui.registration().org
 				except:
-					oui = "Invalid OUI"
+					oui = "Invalid/Unknown OUI"
 				print mac +  " -- " + oui
 				observedClients.append(mac)
 
@@ -111,8 +109,10 @@ def sniffmgmt(p):
 				else:
 					print Fore.RED + "!!!WARNING - Device " + str(mac) + " is unauthorized!!!" + " RSSI: " + str(rssi)
 					#Send Email
+					sendList = []
 					for key, alertContact in alertContacts:
-						#sendmail(alertContact, mac, oui)
+						sendList.append(alertContact)
+					#sendmail(sendList, mac, oui)
 
 #Actually run the sniffer. store=0 is required to keep memory from filling with packets.
 sniff(iface='mon0', prn=sniffmgmt, store=0)
