@@ -23,19 +23,19 @@ Jam Detection
 Tier 3:
 =========================
 Historical Analysis
-
-
-Brainstorm/Nice-to-have:
-=========================
 Traffic Logging/Analysis
 	Beacon Logging/Locating/Analysis
 	WIGLE Lookup?
-GUI (would be dope -Roger)
-Keeping an eye on authorized users
 Facial Recognition (offsite)
-Add authorized user via E-Mail
-Use Database vs. Flat File
-Correlate "Real names" to device MAC
+
+Brainstorm/Nice-to-have:
+=========================
+Keeping an eye on authorized users
+Web GUI (would be dope -Roger)
+	Use Database vs. Flat File
+	Add authorized user via Web GUI
+	Correlate "Real names" to device MAC
+Add ability to track with multiple units.
 
 ==========================================
 IMPLEMENTED:
@@ -46,5 +46,4 @@ WiFi Survey
 RSSI Readings
 OUI Lookup
 Config Parsing
-
 

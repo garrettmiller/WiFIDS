@@ -63,8 +63,8 @@ def sendmail(recipients, mac, oui):
 	except:
 		print "Error: unable to send email to " + str(', '.join(recipients))
 
-# The sniffmgmt() function is called each time Scapy receives a packet so we have to define it
-def sniffmgmt(p):
+# runsniffer() function is called each time Scapy receives a packet so we have to define it
+def runsniffer(p):
 	#Reinitialize "authorizedFlag"
 	authorizedFlag = 0
 
@@ -115,4 +115,4 @@ def sniffmgmt(p):
 					#sendmail(sendList, mac, oui)
 
 #Actually run the sniffer. store=0 is required to keep memory from filling with packets.
-sniff(iface='mon0', prn=sniffmgmt, store=0)
+sniff(iface='mon0', prn=runsniffer, store=0)
