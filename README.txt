@@ -19,6 +19,7 @@ python-colorama
 python-scapy
 python-picamera
 apache2
+pi-motion-lite
 
 Setup (on Debian-like OS):
 
@@ -38,3 +39,9 @@ RUNNING:
 2) Restart system with "sudo restart", or unplug and replug device.
 3) In its configured state, "main.py" should execute on startup. If not, "sudo python main.py" will execute the main executable script.
 4) Stored images can be viewed at http://<DEVICEIP>/images/.
+
+=========================================================
+ACKNOWLEDGEMENTS:
+=========================================================
+pi-motion-lite is by Claude Pageau, https://github.com/pageauc.  
+	Code has been modified for use within this project.
