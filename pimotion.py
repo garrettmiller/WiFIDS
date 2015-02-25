@@ -22,7 +22,7 @@ if nightShut > 6:
 	nightShut = 5.9
 nightMaxShut = int(nightShut * SECONDS2MICRO)
 nightMaxISO = int(nightISO)
-nightSleepSec = 10  
+nightSleepSec = 10
 
 def checkForMotion(data1, data2):
 	# Find motion between two data streams based on sensitivity and threshold
