@@ -44,7 +44,7 @@ authorizedClients = config.items("AuthorizedClients")
 observedClients = []
 
 def sendmail(recipients, mac, oui, timestamp):
-	img_data = open('images/'+timestamp+'.jpg', 'rb').read()
+	img_data = open('/var/www/images/'+timestamp+'.jpg', 'rb').read()
 	message = MIMEMultipart()
 	sender= "cmuwifids@gmail.com"
 	text = MIMEText("""An unauthorized intrusion was detected into the secure area.  Intruder details:
@@ -123,7 +123,7 @@ def runsniffer(p):
 					camera = picamera.PiCamera()
 					camera.resolution = (1024, 768)
 					timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-					camera.capture('images/'+timestamp+'.jpg')
+					camera.capture('/var/www/images/'+timestamp+'.jpg')
 					camera.close()
 					
 					#Send Email
