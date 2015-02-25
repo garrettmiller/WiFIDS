@@ -39,6 +39,7 @@ authorizedClients = config.items("AuthorizedClients")
 
 ##################################
 #BEGIN MOTION DETECT FUNCTIONS   #
+#From pi-motion-lite   			 #
 #Claude Pageau Dec-2014          #
 ##################################
 
@@ -114,7 +115,8 @@ def getStreamImage(daymode):
 			return stream.array
 			
 ##################################
-#END MOTION DETECT FUNCTIONS     #
+#END MOTION DETECT FUNCTIONS	 #
+#from pi-motion-lite			 #
 #Claude Pageau Dec-2014          #
 ##################################
 	
