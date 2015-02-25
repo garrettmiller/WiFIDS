@@ -1,7 +1,10 @@
 ==========================================
 OUTSTANDING:
 ==========================================
+2015-02-25 - Garrett
 
+Found an issue where emailing multiple photos in succession can get corrupted.  
+Actual file is being written to disk fine. Maybe sleeps would fix it?
 
 
 ==========================================
