@@ -23,6 +23,8 @@ pi-motion-lite
 
 Setup (on Debian-like OS):
 
+tar -xvf wifids.tar
+chmod +x *.py
 sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama python-picamera apache2
 cd /usr/share/pyshared/netaddr/eui && sudo python ./ieee.py
 sudo mkdir /var/www/images/
@@ -43,5 +45,5 @@ RUNNING:
 =========================================================
 ACKNOWLEDGEMENTS:
 =========================================================
-pi-motion-lite is by Claude Pageau, https://github.com/pageauc.  
+pi-motion-lite is by Claude Pageau, https://github.com/pageauc
 	Code has been modified for use within this project.
