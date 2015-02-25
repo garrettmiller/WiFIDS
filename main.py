@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 ###########################################################
 #WiFiDS - main.py								          #
 #Main Driver for WiFiDS                                   #

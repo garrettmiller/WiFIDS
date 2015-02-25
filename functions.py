@@ -1,3 +1,10 @@
+#!/usr/bin/python
+###########################################################
+#WiFiDS - functions.py							          #
+#Functions library for WiFiDS                             #
+#Roger Baker, Houston Hunt, Prashant Kumar, Garrett Miller#
+###########################################################
+
 import os #Needed to check UID for root.
 import subprocess #Needed for system calls
 import logging #Needed for logging tasks
@@ -12,10 +19,10 @@ from email.mime.text import MIMEText #Needed for sending alerts
 from email.mime.image import MIMEImage #Needed for sending alerts
 from email.mime.multipart import MIMEMultipart #Needed for sending alerts
 import picamera #Needed to use camera functionality
+import picamera.array #Needed to use camera functionality
+import time #Needed for keeping track of time
 import datetime #Needed for labeling date/time
 
-import time
-import picamera.array
 from fractions import Fraction
 
 #Improves colorization compatibility, autoresets color after print.
@@ -50,7 +57,6 @@ if nightShut > 6:
 nightMaxShut = int(nightShut * SECONDS2MICRO)
 nightMaxISO = int(nightISO)
 nightSleepSec = 10  
-
 
 def userMotionCode():
 	print "Motion Found So Do Something ..."
@@ -111,11 +117,10 @@ def getStreamImage(daymode):
 #END MOTION DETECT FUNCTIONS     #
 #Claude Pageau Dec-2014          #
 ##################################
-
-						
-########################
-#BEGIN OUR FUNCTIONS   #
-########################
+	
+##################################
+#BEGIN OUR FUNCTIONS   			 #
+##################################
 def sendmail(recipients, mac, oui, timestamp):
 	img_data = open('/var/www/images/'+timestamp+'.jpg', 'rb').read()
 	message = MIMEMultipart()
