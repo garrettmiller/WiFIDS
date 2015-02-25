@@ -11,14 +11,11 @@ Entry/Sensor Correlation
 
 Tier 1:
 =========================
-Photographing
-EMailing Photographs
 
 
 Tier 2:
 =========================
 Jam Detection
-
 
 Tier 3:
 =========================
@@ -41,9 +38,10 @@ Add ability to track with multiple units.
 IMPLEMENTED:
 ==========================================
 
-Email (Text-Only)
 WiFi Survey
 RSSI Readings
 OUI Lookup
 Config Parsing
+Photographing
+EMailing with Photographs
 

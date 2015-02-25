@@ -17,6 +17,8 @@ import string #Needed to work with strings
 from colorama import Fore, init # Needed for terminal colorization
 import smtplib #Needed for sending alerts
 from email.mime.text import MIMEText #Needed for sending alerts
+from email.mime.image import MIMEImage #Needed for sending alerts
+from email.mime.multipart import MIMEMultipart #Needed for sending alerts
 import picamera #Needed to use camera functionality
 import datetime #Needed for labeling date/time
 
@@ -41,11 +43,14 @@ authorizedClients = config.items("AuthorizedClients")
 #Declare empty list for observed clients 
 observedClients = []
 
-def sendmail(recipients, mac, oui):
+def sendmail(recipients, mac, oui, timestamp):
+	img_data = open('images/'+timestamp+'.jpg', 'rb').read()
+	message = MIMEMultipart()
 	sender= "cmuwifids@gmail.com"
-	message = MIMEText("""An unauthorized intrusion was detected into the secure area.  Intruder details:
+	text = MIMEText("""An unauthorized intrusion was detected into the secure area.  Intruder details:
 
 	Location: Front Door
+	Time: """ + timestamp + """
 	MAC Address: """ + str(mac) + """
 	Device Type: """ + oui + """
 
@@ -54,7 +59,10 @@ def sendmail(recipients, mac, oui):
 	message['Subject'] = "[WiFIDS] Unauthorized Intrusion Detected!"
 	message['From'] = "WiFIDS <cmuwifids@gmail.com>"
 	message['To'] = str(', '.join(recipients))
-	
+	message.attach(text)
+	image = MIMEImage(img_data, name=os.path.basename('images/'+timestamp+'.jpg'))
+	message.attach(image)
+
 	try:
 		server = smtplib.SMTP('smtp.gmail.com:587')
 		server.starttls()
@@ -111,7 +119,7 @@ def runsniffer(p):
 				else: #Someone is unauthorized!
 					print Fore.RED + "!!!WARNING - Device " + str(mac) + " is unauthorized!!!" + " RSSI: " + str(rssi)
 					
-					#Initialize the camera class, take picture
+					#Initialize the camera class, take picture, close camera
 					camera = picamera.PiCamera()
 					camera.resolution = (1024, 768)
 					timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -122,7 +130,7 @@ def runsniffer(p):
 					sendList = []
 					for key, alertContact in alertContacts:
 						sendList.append(alertContact)
-					#sendmail(sendList, mac, oui)
+					#sendmail(sendList, mac, oui, timestamp)
 
 #Actually run the sniffer. store=0 is required to keep memory from filling with packets.
 sniff(iface='mon0', prn=runsniffer, store=0)
