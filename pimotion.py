@@ -23,12 +23,7 @@ if nightShut > 6:
 nightMaxShut = int(nightShut * SECONDS2MICRO)
 nightMaxISO = int(nightISO)
 nightSleepSec = 10  
-	
-def showTime():
-	rightNow = datetime.datetime.now()
-	currentTime = "%04d%02d%02d-%02d:%02d:%02d" % (rightNow.year, rightNow.month, rightNow.day, rightNow.hour, rightNow.minute, rightNow.second)
-	return currentTime    
- 
+
 def checkForMotion(data1, data2):
 	# Find motion between two data streams based on sensitivity and threshold
 	motionDetected = False
