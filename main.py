@@ -17,6 +17,8 @@ import string #Needed to work with strings
 from colorama import Fore, init # Needed for terminal colorization
 import smtplib #Needed for sending alerts
 from email.mime.text import MIMEText #Needed for sending alerts
+import picamera #Needed to use camera functionality
+import datetime #Needed for labeling date/time
 
 #Improves colorization compatibility, autoresets color after print.
 init(autoreset=True)
@@ -63,7 +65,7 @@ def sendmail(recipients, mac, oui):
 	except:
 		print "Error: unable to send email to " + str(', '.join(recipients))
 
-# runsniffer() function is called each time Scapy receives a packet so we have to define it
+# runsniffer() function is called each time Scapy receives a packet
 def runsniffer(p):
 	#Reinitialize "authorizedFlag"
 	authorizedFlag = 0
@@ -106,8 +108,16 @@ def runsniffer(p):
 				#Perform appropriate action.
 				if authorizedFlag == 1:
 					print Fore.GREEN + "Authorized Device - " + str(mac) + " RSSI: " + str(rssi)
-				else:
+				else: #Someone is unauthorized!
 					print Fore.RED + "!!!WARNING - Device " + str(mac) + " is unauthorized!!!" + " RSSI: " + str(rssi)
+					
+					#Initialize the camera class, take picture
+					camera = picamera.PiCamera()
+					camera.resolution = (1024, 768)
+					timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+					camera.capture('images/'+timestamp+'.jpg')
+					camera.close()
+					
 					#Send Email
 					sendList = []
 					for key, alertContact in alertContacts:
