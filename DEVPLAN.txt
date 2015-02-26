@@ -12,7 +12,6 @@ Entry/Sensor Correlation
 Tier 1:
 =========================
 
-
 Tier 2:
 =========================
 Jam Detection
@@ -44,4 +43,5 @@ OUI Lookup
 Config Parsing
 Photographing
 EMailing with Photographs
+Motion Sensor Trigger
 

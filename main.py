@@ -24,7 +24,6 @@ def motionCode():
 
 #Start motion detection:
 dayTime = True
-msgStr = "Checking for Motion dayTime=%s threshold=%i sensitivity=%i" % ( dayTime, threshold, sensitivity)
 stream1 = getStreamImage(dayTime)
 while True:
 	stream2 = getStreamImage(dayTime)
