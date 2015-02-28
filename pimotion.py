@@ -1,8 +1,9 @@
-##################################
-#Adapted from Pi-motion-lite   	 #
-#Claude Pageau Dec-2014			 #
-#https://github.com/pageauc      #
-##################################
+#!/usr/bin/python
+###########################################################
+#Adapted from Pi-motion-lite, for WiFIDS                  #
+#originally by Claude Pageau Dec-2014					  #
+#https://github.com/pageauc                               #
+###########################################################
 
 import picamera.array #Needed to track motion
 import time #Needed for keeping track of time
