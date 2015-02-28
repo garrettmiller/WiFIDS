@@ -10,7 +10,6 @@
 
 import picamera.array #Needed to track motion
 import time #Needed for keeping track of time
-from fractions import Fraction #Needed to do fractions
 
 threshold = 10     # How Much a pixel has to change
 sensitivity = 200  # How Many pixels need to change for motion detection
