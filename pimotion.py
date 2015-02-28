@@ -12,21 +12,10 @@ import picamera.array #Needed to track motion
 import time #Needed for keeping track of time
 from fractions import Fraction #Needed to do fractions
 
-#Constants
-SECONDS2MICRO = 1000000  # Constant for converting Shutter Speed in Seconds to Microseconds
-
 threshold = 10     # How Much a pixel has to change
 sensitivity = 200  # How Many pixels need to change for motion detection
-nightShut = 5.5    # seconds Night shutter Exposure Time default = 5.5  Do not exceed 6 since camera may lock up
-nightISO = 800
-
 testWidth = 100
 testHeight = 75
-if nightShut > 6:
-	nightShut = 5.9
-nightMaxShut = int(nightShut * SECONDS2MICRO)
-nightMaxISO = int(nightISO)
-nightSleepSec = 10
 
 def checkForMotion(data1, data2):
 	# Find motion between two data streams based on sensitivity and threshold
