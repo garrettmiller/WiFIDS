@@ -18,13 +18,10 @@ cleanup = subprocess.call(['iw', 'dev', 'mon0', 'del'], stdout=subprocess.PIPE, 
 startmon = subprocess.call(['iw', 'dev', 'wlan0', 'interface', 'add', 'mon0', 'type', 'monitor'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 monup = subprocess.call(['ifconfig', 'mon0', 'up'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-#Used for camera sensitivity.
-dayTime = True
-
 #Start doing motion detection
-stream1 = getStreamImage(dayTime)
+stream1 = getStreamImage()
 while True:
-	stream2 = getStreamImage(dayTime)
+	stream2 = getStreamImage()
 	if checkForMotion(stream1, stream2):
 		motionCode()
 	stream2 = stream1

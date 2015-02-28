@@ -1,8 +1,11 @@
 #!/usr/bin/python
 ###########################################################
+#WiFiDS - pimotion.py									  #
 #Adapted from Pi-motion-lite, for WiFIDS                  #
 #originally by Claude Pageau Dec-2014					  #
-#https://github.com/pageauc                               #
+#https://github.com/pageauc                     		  #
+#Modified By:											  #
+#Roger Baker, Houston Hunt, Prashant Kumar, Garrett Miller#
 ###########################################################
 
 import picamera.array #Needed to track motion
@@ -45,26 +48,13 @@ def checkForMotion(data1, data2):
 		motionDetected = True
 	return motionDetected  
  
-def getStreamImage(daymode):
+def getStreamImage():
 	# Capture an image stream to memory based on daymode
-	isDay = daymode
 	with picamera.PiCamera() as camera:
 		time.sleep(2)
 		camera.resolution = (testWidth, testHeight)
 		with picamera.array.PiRGBArray(camera) as stream:
-			if isDay:
-				camera.exposure_mode = 'auto'
-				camera.awb_mode = 'auto' 
-			else:
-				# Take Low Light image            
-				# Set a framerate of 1/6fps, then set shutter
-				# speed to 6s and ISO to 800
-				camera.framerate = Fraction(1, 6)
-				camera.shutter_speed = nightMaxShut
-				camera.exposure_mode = 'off'
-				camera.iso = nightMaxISO
-				# Give the camera a good long time to measure AWB
-				# (you may wish to use fixed AWB instead)
-				time.sleep( nightSleepSec )
+			camera.exposure_mode = 'auto'
+			camera.awb_mode = 'auto' 
 			camera.capture(stream, format='rgb')
 			return stream.array
