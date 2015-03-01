@@ -34,13 +34,6 @@ config.read('config.cfg')
 alertContacts = config.items("AlertContacts")
 authorizedClients = config.items("AuthorizedClients")
 
-#What to do when we actually see motion
-def motionCode():
-	print Fore.YELLOW + "Motion Detected!"
-	#Actually run the sniffer. store=0 is required to keep memory from filling with packets.
-	sniff(iface='mon0', prn=runsniffer, store=0)
-	return 
-
 #Sends Email (obviously)
 def sendmail(recipients, mac, oui, timestamp):
 	img_data = open('/var/www/images/'+timestamp+'.jpg', 'rb').read()
