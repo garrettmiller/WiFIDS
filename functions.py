@@ -110,15 +110,7 @@ def runsniffer(p):
 					print Fore.GREEN + "Authorized Device - " + str(mac) + " RSSI: " + str(rssi)
 				else: #Someone is unauthorized!
 					print Fore.RED + "WARNING - Device " + str(mac) + " is unauthorized!" + " RSSI: " + str(rssi)
-					
-					#Initialize the camera class, take picture, close camera
-					camera = picamera.PiCamera()
-					camera.resolution = (1024, 768)
-					timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-					camera.capture('/var/www/images/'+timestamp+'.jpg')
-					print Fore.BLUE + "Photo Taken!"
-					camera.close()
-					
+									
 					#Send Email
 					sendList = []
 					for key, alertContact in alertContacts:

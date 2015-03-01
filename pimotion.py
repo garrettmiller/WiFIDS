@@ -45,4 +45,5 @@ def getStreamImage():
 			camera.exposure_mode = 'auto'
 			camera.awb_mode = 'auto' 
 			camera.capture(stream, format='rgb')
+			camera.close()
 			return stream.array
