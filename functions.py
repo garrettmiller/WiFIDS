@@ -36,6 +36,7 @@ authorizedClients = config.items("AuthorizedClients")
 
 #What to do when we actually see motion
 def motionCode():
+	print Fore.YELLOW + "Motion Detected!"
 	#Actually run the sniffer. store=0 is required to keep memory from filling with packets.
 	sniff(iface='mon0', prn=runsniffer, store=0)
 	return 
@@ -115,13 +116,14 @@ def runsniffer(p):
 				if authorizedFlag == 1:
 					print Fore.GREEN + "Authorized Device - " + str(mac) + " RSSI: " + str(rssi)
 				else: #Someone is unauthorized!
-					print Fore.RED + "!!!WARNING - Device " + str(mac) + " is unauthorized!!!" + " RSSI: " + str(rssi)
+					print Fore.RED + "WARNING - Device " + str(mac) + " is unauthorized!" + " RSSI: " + str(rssi)
 					
 					#Initialize the camera class, take picture, close camera
 					camera = picamera.PiCamera()
 					camera.resolution = (1024, 768)
 					timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 					camera.capture('/var/www/images/'+timestamp+'.jpg')
+					print Fore.BLUE + "Photo Taken!"
 					camera.close()
 					
 					#Send Email
