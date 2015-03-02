@@ -1,15 +1,19 @@
 ==========================================
 OUTSTANDING:
 ==========================================
-2015-02-25 - Garrett
 
-Found an issue where emailing multiple photos in succession can get corrupted.  
-Actual file is being written to disk fine. Maybe sleeps would fix it?
+2015-02-26 - Garrett
 
+	Images are being sent with no filename. This is due to a missing argument in image = MIMEImage(imagedata, xxxx).
 
 ==========================================
 FIXED:
 ==========================================
+2015-02-25 - Garrett
+
+	Found an issue where emailing multiple photos in succession can get corrupted.  
+	Actual file is being written to disk fine. Maybe sleeps would fix it?
+
 2015-02-10 - Garrett
 	Fixed a bug where MAC lookups were no longer working.
 
