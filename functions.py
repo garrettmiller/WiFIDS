@@ -20,6 +20,7 @@ from email.mime.image import MIMEImage #Needed for sending alerts
 from email.mime.multipart import MIMEMultipart #Needed for sending alerts
 import picamera #Needed to use camera functionality
 import datetime #Needed for labeling date/time
+import sqlite3 #Needed for local database
 from pimotion import * #Needed for motion detection
 
 #Improves colorization compatibility, autoresets color after print.
@@ -110,7 +111,15 @@ def runsniffer(p):
 					print Fore.GREEN + "Authorized Device - " + str(mac) + " RSSI: " + str(rssi)
 				else: #Someone is unauthorized!
 					print Fore.RED + "WARNING - Device " + str(mac) + " is unauthorized!" + " RSSI: " + str(rssi)
-									
+					timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+					
+					#Add unauthorized event information to database.
+					connection = sqlite3.connect('wifids.db')
+					cursor = connection.cursor()
+					cursor.execute("INSERT INTO probes VALUES (?, ?, ?, ?, ?)", (timestamp, mac, str(rssi), p.info, oui))
+					connection.commit()
+					connection.close()
+					
 					#Send Email
 					sendList = []
 					for key, alertContact in alertContacts:
