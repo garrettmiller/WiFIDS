@@ -2,13 +2,16 @@
 OUTSTANDING:
 ==========================================
 
-2015-02-26 - Garrett
 
-	Images are being sent with no filename. This is due to a missing argument in image = MIMEImage(imagedata, xxxx).
 
 ==========================================
 FIXED:
 ==========================================
+
+2015-02-26 - Garrett
+
+	Images are being sent with no filename. This is due to a missing argument in image = MIMEImage(imagedata, xxxx).
+
 2015-02-25 - Garrett
 
 	Found an issue where emailing multiple photos in succession can get corrupted.  

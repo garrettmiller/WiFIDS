@@ -64,7 +64,7 @@ def sendmail(recipients, path):
 	message['From'] = "WiFIDS <cmuwifids@gmail.com>"
 	message['To'] = str(', '.join(recipients))
 	message.attach(text)
-	image = MIMEImage(img_data)
+	image = MIMEImage(img_data, name=str(result[0]+'.jpg'))
 	message.attach(image)
 
 	try:

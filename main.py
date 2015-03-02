@@ -41,6 +41,8 @@ def doMotionDetect():
 			#Initialize the camera class, take picture, close camera
 			camera = picamera.PiCamera()
 			camera.resolution = (1024, 768)
+			camera.hflip = True
+			camera.vflip = True
 			timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 			path="/var/www/images/"+timestamp+".jpg"
 			camera.capture(path)
