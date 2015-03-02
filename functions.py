@@ -37,16 +37,26 @@ alertContacts = config.items("AlertContacts")
 authorizedClients = config.items("AuthorizedClients")
 
 #Sends Email (obviously)
-def sendmail(recipients, mac, oui, timestamp):
-	img_data = open('/var/www/images/'+timestamp+'.jpg', 'rb').read()
+def sendmail(recipients, path):
+	
+	#Get last intrusion event from DB
+	connection = sqlite3.connect('wifids.db')
+	cursor = connection.cursor()
+	cursor.execute("SELECT * FROM probes ORDER BY timestamp DESC LIMIT 1;")
+	result = cursor.fetchone()
+	connection.commit()
+	connection.close()
+
+	#Build the email
+	img_data = open(path).read()
 	message = MIMEMultipart()
 	sender= "cmuwifids@gmail.com"
 	text = MIMEText("""An unauthorized intrusion was detected into the secure area.  Intruder details:
 
 	Location: Front Door
-	Time: """ + timestamp + """
-	MAC Address: """ + str(mac) + """
-	Device Type: """ + oui + """
+	Time: """ + result[0] + """
+	MAC Address: """ + str(result[1]) + """
+	Device Type: """ + result[4] + """
 
 	A photo of the intrusion is attached.
 	""")
@@ -54,7 +64,7 @@ def sendmail(recipients, mac, oui, timestamp):
 	message['From'] = "WiFIDS <cmuwifids@gmail.com>"
 	message['To'] = str(', '.join(recipients))
 	message.attach(text)
-	image = MIMEImage(img_data, name=os.path.basename('images/'+timestamp+'.jpg'))
+	image = MIMEImage(img_data)
 	message.attach(image)
 
 	try:
@@ -120,9 +130,3 @@ def runsniffer(p):
 					cursor.execute("INSERT INTO probes VALUES (?, ?, ?, ?, ?)", (timestamp, mac, str(rssi), p.info, oui))
 					connection.commit()
 					connection.close()
-					
-					#Send Email
-					sendList = []
-					for key, alertContact in alertContacts:
-						sendList.append(alertContact)
-					#sendmail(sendList, mac, oui, timestamp)

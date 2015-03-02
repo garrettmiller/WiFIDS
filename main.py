@@ -54,6 +54,12 @@ def doMotionDetect():
 			cursor.execute("INSERT INTO events VALUES (?,?)", (timestamp, path))
 			connection.commit()
 			connection.close()
+								
+			#Send Email
+			sendList = []
+			for key, alertContact in alertContacts:
+				sendList.append(alertContact)
+			sendmail(sendList, path)
 		
 		stream2 = stream1
 		
