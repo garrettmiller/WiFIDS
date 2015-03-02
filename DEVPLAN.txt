@@ -28,7 +28,6 @@ Brainstorm/Nice-to-have:
 =========================
 Keeping an eye on authorized users
 Web GUI (would be dope -Roger)
-	Use Database vs. Flat File
 	Add authorized user via Web GUI
 	Correlate "Real names" to device MAC
 Add ability to track with multiple units.
@@ -37,6 +36,7 @@ Add ability to track with multiple units.
 IMPLEMENTED:
 ==========================================
 
+Use Database
 WiFi Survey
 RSSI Readings
 OUI Lookup
@@ -44,4 +44,3 @@ Config Parsing
 Photographing
 EMailing with Photographs
 Motion Sensor Trigger
-

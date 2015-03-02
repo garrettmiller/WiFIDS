@@ -5,7 +5,6 @@
 #Roger Baker, Houston Hunt, Prashant Kumar, Garrett Miller#
 ###########################################################
 
-from multiprocessing import Process #Needed for function concurrency
 from functions import * #Our functions file
 
 #Check to see if we're root

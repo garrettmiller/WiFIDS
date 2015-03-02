@@ -21,6 +21,7 @@ from email.mime.multipart import MIMEMultipart #Needed for sending alerts
 import picamera #Needed to use camera functionality
 import datetime #Needed for labeling date/time
 import sqlite3 #Needed for local database
+from multiprocessing import Process #Needed for function concurrency
 from pimotion import * #Needed for motion detection
 
 #Improves colorization compatibility, autoresets color after print.
