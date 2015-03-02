@@ -36,6 +36,46 @@ config.read('config.cfg')
 alertContacts = config.items("AlertContacts")
 authorizedClients = config.items("AuthorizedClients")
 
+#Start doing motion detection
+def doMotionDetect():
+	stream1 = getStreamImage()
+	while True:
+		stream2 = getStreamImage()
+		#Do this when we see motion!
+		if checkForMotion(stream1, stream2):
+			print Fore.YELLOW + "Motion Detected!"
+			
+			#Initialize the camera class, take picture, close camera
+			camera = picamera.PiCamera()
+			camera.resolution = (1024, 768)
+			camera.hflip = True
+			camera.vflip = True
+			timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+			path="/var/www/images/"+timestamp+".jpg"
+			camera.capture(path)
+			camera.close()
+			time.sleep(1)
+			print Fore.BLUE + "Photo Taken!"
+						
+			#Add motion event information to database.
+			connection = sqlite3.connect('wifids.db')
+			cursor = connection.cursor()
+			cursor.execute("INSERT INTO events VALUES (?,?)", (timestamp, path))
+			connection.commit()
+			connection.close()
+								
+			#Send Email
+			sendList = []
+			for key, alertContact in alertContacts:
+				sendList.append(alertContact)
+			sendmail(sendList, path)
+		
+		stream2 = stream1
+		
+def doPcap():
+	#Actually run the sniffer. store=0 is required to keep memory from filling with packets.
+	sniff(iface='mon0', prn=runsniffer, store=0)
+
 #Sends Email (obviously)
 def sendmail(recipients, path):
 	
