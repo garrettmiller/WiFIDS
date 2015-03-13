@@ -76,9 +76,39 @@ def doMotionDetect():
 def doPcap():
 	#Actually run the sniffer. store=0 is required to keep memory from filling with packets.
 	sniff(iface='mon0', prn=runsniffer, store=0)
+	
+#Sends Email for deauths (obviously)
+def senddeauthmail(recipients, timestamp, mac, client):
 
-#Sends Email (obviously)
-def sendmail(recipients, path):
+	#Build the email
+	message = MIMEMultipart()
+	sender= "cmuwifids@gmail.com"
+	text = MIMEText("""A mass-deauthentication attack was detected against a protected AP. Details are as follows:
+
+	Time: """ + datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S') + """
+	Affected AP: """ + str(mac) + """
+	Observed Client (Likely Spoofed): """ + client + """
+	
+	WiFIDS suggests investigating further.	
+	
+	""")
+	message['Subject'] = "[WiFIDS] Deauth Attack Detected!"
+	message['From'] = "WiFIDS <cmuwifids@gmail.com>"
+	message['To'] = str(', '.join(recipients))
+	message.attach(text)
+
+	try:
+		server = smtplib.SMTP('smtp.gmail.com:587')
+		server.starttls()
+		server.login('cmuwifids','thepythonrappers!')
+		server.sendmail(sender, recipients, str(message))
+		print "Successfully sent deauth email to " + str(', '.join(recipients))
+		server.quit()
+	except:
+		print "Error: unable to send deauth email to " + str(', '.join(recipients))
+
+#Sends Email for intruders (obviously)
+def sendintrudermail(recipients, path):
 	
 	#Get last intrusion event from DB
 	connection = sqlite3.connect('wifids.db')
@@ -112,10 +142,10 @@ def sendmail(recipients, path):
 		server.starttls()
 		server.login('cmuwifids','thepythonrappers!')
 		server.sendmail(sender, recipients, str(message))
-		print "Successfully sent email to " + str(', '.join(recipients))
+		print "Successfully sent intruder email to " + str(', '.join(recipients))
 		server.quit()
 	except:
-		print "Error: unable to send email to " + str(', '.join(recipients))
+		print "Error: unable to send intruder email to " + str(', '.join(recipients))
 
 # runsniffer() function is called each time Scapy receives a packet
 def runsniffer(p):
@@ -180,9 +210,15 @@ def runsniffer(p):
 					for row in result:
 						if row[0] < minTime:
 							minTime = row[0]
+							
 					#If enough packets happen in enough time, it's an attack.
 					if (maxTime - minTime) < 10:
 						print Fore.RED + "DEAUTH ATTACK DETECTED."
+						
+						sendList = []
+						for key, alertContact in alertContacts:
+							sendList.append(alertContact)
+						#senddeauthmail(sendList, timestamp, mac, client)
 
 		# Check to make sure this is a management frame (type=0) and that
 		# the subtype is one of our management frame subtypes
