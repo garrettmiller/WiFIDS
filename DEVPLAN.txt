@@ -14,7 +14,6 @@ Tier 1:
 
 Tier 2:
 =========================
-Jam Detection
 
 Tier 3:
 =========================
@@ -31,6 +30,7 @@ Web GUI (would be dope -Roger)
 	Add authorized user via Web GUI
 	Correlate "Real names" to device MAC
 Add ability to track with multiple units.
+Physical Jam Detection
 
 ==========================================
 IMPLEMENTED:
@@ -44,3 +44,4 @@ Config Parsing
 Photographing
 EMailing with Photographs
 Motion Sensor Trigger
+Logical Jam Detection

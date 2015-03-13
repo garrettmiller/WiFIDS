@@ -2,14 +2,14 @@
 OUTSTANDING:
 ==========================================
 
-
+2015-03-12 - Garrett
+	Motion detection is freaking out after a while and then triggering tons of events.  Not sure of cause yet.
 
 ==========================================
 FIXED:
 ==========================================
 
 2015-02-26 - Garrett
-
 	Images are being sent with no filename. This is due to a missing argument in image = MIMEImage(imagedata, xxxx).
 
 2015-02-25 - Garrett

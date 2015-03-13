@@ -21,6 +21,7 @@ cursor = connection.cursor()
 #Build the database if necessary. Write changes to db and close, since the individual processes will access it later.
 cursor.execute('CREATE TABLE IF NOT EXISTS probes (timestamp TEXT, mac TEXT, rssi INT, ssid TEXT, oui TEXT)')
 cursor.execute('CREATE TABLE IF NOT EXISTS events (timestamp TEXT, imagepath TEXT)')
+cursor.execute('CREATE TABLE IF NOT EXISTS deauths (timestamp int, mac TEXT, client TEXT)')
 connection.commit()
 connection.close()
 	

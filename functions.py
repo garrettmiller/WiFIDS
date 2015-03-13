@@ -35,6 +35,7 @@ config = ConfigParser.RawConfigParser()
 config.read('config.cfg')
 alertContacts = config.items("AlertContacts")
 authorizedClients = config.items("AuthorizedClients")
+protectedAPS = config.items("ProtectedAPS")
 
 #Start doing motion detection
 def doMotionDetect():
@@ -55,7 +56,7 @@ def doMotionDetect():
 			camera.capture(path)
 			camera.close()
 			time.sleep(1)
-			print Fore.BLUE + "Photo Taken!"
+			print Fore.YELLOW + "Photo Taken!"
 						
 			#Add motion event information to database.
 			connection = sqlite3.connect('wifids.db')
@@ -68,7 +69,7 @@ def doMotionDetect():
 			sendList = []
 			for key, alertContact in alertContacts:
 				sendList.append(alertContact)
-			sendmail(sendList, path)
+			#sendmail(sendList, path)
 		
 		stream2 = stream1
 		
@@ -84,7 +85,6 @@ def sendmail(recipients, path):
 	cursor = connection.cursor()
 	cursor.execute("SELECT * FROM probes ORDER BY timestamp DESC LIMIT 1;")
 	result = cursor.fetchone()
-	connection.commit()
 	connection.close()
 
 	#Build the email
@@ -119,8 +119,11 @@ def sendmail(recipients, path):
 
 # runsniffer() function is called each time Scapy receives a packet
 def runsniffer(p):
-	#Reinitialize "authorizedFlag"
+	#Reinitialize "authorizedFlag", "protectedFlag"
 	authorizedFlag = 0
+	protectedFlag = 0
+	maxTime = 0
+	minTime = 0
 
 	# Define our tuple of the 3 management frame
 	# subtypes sent exclusively by clients. From Wireshark.
@@ -128,6 +131,58 @@ def runsniffer(p):
 
 	# Make sure the packet is a WiFi packet
 	if p.haslayer(Dot11):
+	
+		#Do deauth detection
+		if p.haslayer(Dot11Deauth):
+			# Look for a deauth packet and print the AP BSSID, Client BSSID and the reason for the deauth.
+			print Fore.CYAN + p.sprintf("Deauth found for AP [%Dot11.addr2%], Client [%Dot11.addr1%], Reason [%Dot11Deauth.reason%]")
+			
+			#Set MAC to what we received
+			mac = p.addr2
+			client = p.addr1
+			
+			#Iterate through config file items to see if device is authorized.
+			for key, protectedAP in protectedAPS:
+				if str(mac) == string.lower(protectedAP):
+					protectedFlag = 1
+					break
+				else:
+					protectedFlag = 0
+			
+			if protectedFlag == 1:
+				#Be careful! We may be being deauthed, or this may be legitimate. Watch for more.
+				timestamp = int(time.time())
+				
+				#Add deauth event information to database.
+				connection = sqlite3.connect('wifids.db')
+				cursor = connection.cursor()
+				cursor.execute("INSERT INTO deauths VALUES (?, ?, ?)", (timestamp, mac, client))
+				connection.commit()
+
+				#Get numrows
+				cursor.execute("SELECT COUNT(*) FROM deauths WHERE mac LIKE (?) LIMIT 10", (mac,))
+				result=cursor.fetchone()
+				numrows=result[0]
+				
+				#Check to see if this hits threshold to be defined as an "attack"
+				cursor.execute("SELECT * FROM deauths WHERE mac LIKE (?) LIMIT 10", (mac,))
+				result = cursor.fetchall()
+				connection.close()
+				
+				#Make sure we have 10 packets, then find time difference between highest/lowest.
+				if numrows >= 10:
+					for row in result:
+						if row[0] > maxTime:
+							maxTime = row[0]
+					#Need to make sure this isn't zero for comparison purposes		
+					minTime = maxTime
+					
+					for row in result:
+						if row[0] < minTime:
+							minTime = row[0]
+					#If enough packets happen in enough time, it's an attack.
+					if (maxTime - minTime) < 10:
+						print Fore.RED + "DEAUTH ATTACK DETECTED."
 
 		# Check to make sure this is a management frame (type=0) and that
 		# the subtype is one of our management frame subtypes
