@@ -3,20 +3,21 @@ OUTSTANDING:
 ==========================================
 
 2015-03-12 - Garrett
-	Deauth emails go CRAZY since the logic runs for each packet received. How should we fix - store/check a record of sending a message in the db?  Is there a way to keep this in memory yet have it stay persistent for every run of runsniffer() (every packet)?
-
-2015-03-12 - Garrett
 	Motion detection is freaking out after a while and then triggering tons of events.  Not sure of cause yet.
 
 ==========================================
 FIXED:
 ==========================================
 
+2015-03-12 - Garrett
+	Deauth emails go CRAZY since the logic runs for each packet received. 
+	Currently storing/checking a record of sending a message in the db.  
+	Is there a way to keep this in memory yet have it stay persistent for every run of runsniffer() (every packet)?
+
 2015-02-26 - Garrett
 	Images are being sent with no filename. This is due to a missing argument in image = MIMEImage(imagedata, xxxx).
 
 2015-02-25 - Garrett
-
 	Found an issue where emailing multiple photos in succession can get corrupted.  
 	Actual file is being written to disk fine. Maybe sleeps would fix it?
 

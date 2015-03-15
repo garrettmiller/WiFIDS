@@ -154,6 +154,7 @@ def runsniffer(p):
 	protectedFlag = 0
 	maxTime = 0
 	minTime = 0
+	freshflag = 0
 
 	# Define our tuple of the 3 management frame
 	# subtypes sent exclusively by clients. From Wireshark.
@@ -219,13 +220,20 @@ def runsniffer(p):
 						#Have we already emailed about this event? If not, don't do it again.
 						cursor.execute("SELECT * FROM emaillog WHERE mac LIKE (?) LIMIT 1", (mac,))
 						result = cursor.fetchone()
-						if (timestamp - result[0]) > 600:
-
+						if result == None:
+							print "No result found. Sending Email..."
+							freshflag = 1
+						else:
+							if (timestamp - result[0]) > 600:
+								print "Old ongoing attack. Sending another Email..."
+								freshflag = 1
+						
+						if freshflag != 0:
 							#Get ready to send email, and add email log to database.
 							sendList = []
 							for key, alertContact in alertContacts:
 								sendList.append(alertContact)
-							#senddeauthmail(sendList, timestamp, mac, client)
+							senddeauthmail(sendList, timestamp, mac, client)
 							cursor.execute("INSERT INTO emaillog VALUES (?, ?)", (timestamp, mac))
 							connection.commit()
 						else:
