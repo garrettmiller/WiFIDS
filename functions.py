@@ -228,7 +228,7 @@ def runsniffer(p):
 							#senddeauthmail(sendList, timestamp, mac, client)
 							cursor.execute("INSERT INTO emaillog VALUES (?, ?)", (timestamp, mac))
 							connection.commit()
-						elif:
+						else:
 							print Fore.RED + "ALREADY REPORTED. ATTACK ONGOING."
 
 				connection.close()
