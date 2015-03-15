@@ -22,6 +22,7 @@ cursor = connection.cursor()
 cursor.execute('CREATE TABLE IF NOT EXISTS probes (timestamp TEXT, mac TEXT, rssi INT, ssid TEXT, oui TEXT)')
 cursor.execute('CREATE TABLE IF NOT EXISTS events (timestamp TEXT, imagepath TEXT)')
 cursor.execute('CREATE TABLE IF NOT EXISTS deauths (timestamp int, mac TEXT, client TEXT)')
+cursor.execute('CREATE TABLE IF NOT EXISTS emaillog (timestamp int, mac TEXT)')
 connection.commit()
 connection.close()
 	

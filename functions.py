@@ -197,14 +197,15 @@ def runsniffer(p):
 				#Check to see if this hits threshold to be defined as an "attack"
 				cursor.execute("SELECT * FROM deauths WHERE mac LIKE (?) LIMIT 10", (mac,))
 				result = cursor.fetchall()
-				connection.close()
+				
 				
 				#Make sure we have 10 packets, then find time difference between highest/lowest.
 				if numrows >= 10:
 					for row in result:
 						if row[0] > maxTime:
 							maxTime = row[0]
-					#Need to make sure this isn't zero for comparison purposes		
+					
+					#Need to make sure this is no longer zero for comparison purposes		
 					minTime = maxTime
 					
 					for row in result:
@@ -214,11 +215,23 @@ def runsniffer(p):
 					#If enough packets happen in enough time, it's an attack.
 					if (maxTime - minTime) < 10:
 						print Fore.RED + "DEAUTH ATTACK DETECTED."
-						
-						sendList = []
-						for key, alertContact in alertContacts:
-							sendList.append(alertContact)
-						#senddeauthmail(sendList, timestamp, mac, client)
+
+						#Have we already emailed about this event? If not, don't do it again.
+						cursor.execute("SELECT * FROM emaillog WHERE mac LIKE (?) LIMIT 1", (mac,))
+						result = cursor.fetchone()
+						if (timestamp - result[0]) > 600:
+
+							#Get ready to send email, and add email log to database.
+							sendList = []
+							for key, alertContact in alertContacts:
+								sendList.append(alertContact)
+							#senddeauthmail(sendList, timestamp, mac, client)
+							cursor.execute("INSERT INTO emaillog VALUES (?, ?)", (timestamp, mac))
+							connection.commit()
+						elif:
+							print Fore.RED + "ALREADY REPORTED. ATTACK ONGOING."
+
+				connection.close()
 
 		# Check to make sure this is a management frame (type=0) and that
 		# the subtype is one of our management frame subtypes
