@@ -81,10 +81,10 @@ def soundBuzzer():
 	gpio.setmode(gpio.BOARD)
 	gpio.setup(7,gpio.OUT)
 	gpio.output(7,0)
-    time.sleep(.5)
-    gpio.output(7,1)
-    time.sleep(.5)
-    gpio.cleanup
+	time.sleep(.5)
+	gpio.output(7,1)
+	time.sleep(.5)
+	gpio.cleanup
 		
 def doPcap():
 	#Actually run the sniffer. store=0 is required to keep memory from filling with packets.
