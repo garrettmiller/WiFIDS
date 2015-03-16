@@ -19,8 +19,10 @@ from email.mime.text import MIMEText #Needed for sending alerts
 from email.mime.image import MIMEImage #Needed for sending alerts
 from email.mime.multipart import MIMEMultipart #Needed for sending alerts
 import picamera #Needed to use camera functionality
+import time #Needed for timing on/off of things
 import datetime #Needed for labeling date/time
 import sqlite3 #Needed for local database
+import RPi.GPIO as gpio #Needed to access Raspberry Pi GPIO Pins
 from multiprocessing import Process #Needed for function concurrency
 from pimotion import * #Needed for motion detection
 
@@ -72,6 +74,17 @@ def doMotionDetect():
 			#sendmail(sendList, path)
 		
 		stream2 = stream1
+
+#Make Noise
+def soundBuzzer():
+	gpio.setwarnings(False)
+	gpio.setmode(gpio.BOARD)
+	gpio.setup(7,gpio.OUT)
+	gpio.output(7,0)
+    time.sleep(.5)
+    gpio.output(7,1)
+    time.sleep(.5)
+    gpio.cleanup
 		
 def doPcap():
 	#Actually run the sniffer. store=0 is required to keep memory from filling with packets.
@@ -199,7 +212,6 @@ def runsniffer(p):
 				cursor.execute("SELECT * FROM deauths WHERE mac LIKE (?) LIMIT 10", (mac,))
 				result = cursor.fetchall()
 				
-				
 				#Make sure we have 10 packets, then find time difference between highest/lowest.
 				if numrows >= 10:
 					for row in result:
@@ -228,7 +240,7 @@ def runsniffer(p):
 								print "Old ongoing attack. Sending another Email..."
 								freshflag = 1
 						
-						if freshflag != 0:
+						if freshflag == 1:
 							#Get ready to send email, and add email log to database.
 							sendList = []
 							for key, alertContact in alertContacts:
@@ -275,6 +287,7 @@ def runsniffer(p):
 				else: #Someone is unauthorized!
 					print Fore.RED + "WARNING - Device is unauthorized! - RSSI: " + str(rssi)
 					timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+					soundBuzzer()
 					
 					#Add unauthorized event information to database.
 					connection = sqlite3.connect('wifids.db')
