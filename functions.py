@@ -215,13 +215,13 @@ def runsniffer(p):
 							
 					#If enough packets happen in enough time, it's an attack.
 					if (maxTime - minTime) < 10:
-						print Fore.RED + "DEAUTH ATTACK DETECTED."
+						print Fore.RED + "DEAUTH ATTACK DETECTED.",
 
 						#Have we already emailed about this event? If not, don't do it again.
 						cursor.execute("SELECT * FROM emaillog WHERE mac LIKE (?) LIMIT 1", (mac,))
 						result = cursor.fetchone()
 						if result == None:
-							print "No result found. Sending Email..."
+							print "New Event. Sending Email..."
 							freshflag = 1
 						else:
 							if (timestamp - result[0]) > 600:
@@ -258,7 +258,7 @@ def runsniffer(p):
 					oui = EUI(mac).oui.registration().org
 				except:
 					oui = "Invalid/Unknown OUI"
-				print mac +  " -- " + oui
+				print "["+ mac + "] " + oui + " -",
 				observedClients.append(mac)
 
 				#Iterate through config file items to see if device is authorized.
@@ -271,9 +271,9 @@ def runsniffer(p):
 
 				#Perform appropriate action.
 				if authorizedFlag == 1:
-					print Fore.GREEN + "Authorized Device - " + str(mac) + " RSSI: " + str(rssi)
+					print Fore.GREEN + "Authorized Device - RSSI: " + str(rssi)
 				else: #Someone is unauthorized!
-					print Fore.RED + "WARNING - Device " + str(mac) + " is unauthorized!" + " RSSI: " + str(rssi)
+					print Fore.RED + "WARNING - Device is unauthorized! - RSSI: " + str(rssi)
 					timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 					
 					#Add unauthorized event information to database.
