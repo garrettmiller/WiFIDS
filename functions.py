@@ -72,7 +72,15 @@ def doMotionDetect():
 			for key, alertContact in alertContacts:
 				sendList.append(alertContact)
 			#sendmail(sendList, path)
-		
+
+			#Initiate a counter to keep motion detection image fresh.
+			Cycle = Cycle + 1
+			if Cycle >= 10:
+				print ("10 modetect cycles completed. Refreshing modetect image")
+				Cycle = 0
+				stream1 = getStreamImage(dayTime)
+			stream2 = stream1
+
 		stream2 = stream1
 
 #Make Noise
