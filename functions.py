@@ -41,12 +41,13 @@ protectedAPS = config.items("ProtectedAPS")
 
 #Start doing motion detection
 def doMotionDetect():
+	cycle = 0
 	stream1 = getStreamImage()
 	while True:
 		stream2 = getStreamImage()
 		#Do this when we see motion!
 		if checkForMotion(stream1, stream2):
-			print Fore.YELLOW + "Motion Detected!"
+			print Fore.YELLOW + "Motion Detected - ",
 			
 			#Initialize the camera class, take picture, close camera
 			camera = picamera.PiCamera()
@@ -74,11 +75,11 @@ def doMotionDetect():
 			#sendmail(sendList, path)
 
 			#Initiate a counter to keep motion detection image fresh.
-			Cycle = Cycle + 1
-			if Cycle >= 10:
-				print ("10 modetect cycles completed. Refreshing modetect image")
-				Cycle = 0
-				stream1 = getStreamImage(dayTime)
+			cycle = cycle + 1
+			if cycle >= 3:
+				print ("3 modetect cycles completed. Refreshing modetect image")
+				cycle = 0
+				stream1 = getStreamImage()
 			stream2 = stream1
 
 		stream2 = stream1
@@ -300,6 +301,7 @@ def runsniffer(p):
 					#Add unauthorized event information to database.
 					connection = sqlite3.connect('wifids.db')
 					cursor = connection.cursor()
-					cursor.execute("INSERT INTO probes VALUES (?, ?, ?, ?, ?)", (timestamp, mac, str(rssi), p.info, oui))
+					connection.text_factory = str
+					cursor.execute("INSERT INTO probes VALUES (?, ?, ?, ?, ?)", (timestamp, mac, str(rssi), str(p.info), oui))
 					connection.commit()
 					connection.close()
