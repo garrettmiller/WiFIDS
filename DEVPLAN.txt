@@ -8,12 +8,13 @@ Tier 0:
 =========================
 Entry/Sensor Correlation
 
-
 Tier 1:
 =========================
+Am I alive? Heartbeat Ping to Other Machine. Required per Vyas.
 
 Tier 2:
 =========================
+Abnormal Traffic Analysis "Why is Boss in office at 11pm?"
 
 Tier 3:
 =========================
@@ -25,7 +26,6 @@ Facial Recognition (offsite)
 
 Brainstorm/Nice-to-have:
 =========================
-Keeping an eye on authorized users
 Web GUI (would be dope -Roger)
 	Add authorized user via Web GUI
 	Correlate "Real names" to device MAC
