@@ -4,7 +4,7 @@
 <div class="gallery">
 	{% for image in gallery %}
 	<div class="gallery-item inline-block">
-		<a href="{{image}}"><img src="{% static 'wifids/images/' %}{{image}}"></a>
+		<a href="{% url 'image' image %}"><img src="{% url 'image' image %}"></a>
 	</div>
 	
 	{% endfor %}

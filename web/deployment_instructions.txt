@@ -1,6 +1,0 @@
-pip install django
-cd wifids
-python manage.py runserver 0.0.0.0:<port_num>
-
-#to change config, open views.py line: just please dont. talk to roger. plz
-#to change log file , open views.py line 135

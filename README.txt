@@ -20,14 +20,14 @@ python-scapy
 python-picamera
 pi-motion-lite
 python-sqlite
+django
 
 Setup (on Debian-like OS):
 
 tar -xvf wifids.tar
 chmod +x *.py
-sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama python-picamera python-sqlite
+sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama python-picamera python-sqlite python-django
 cd /usr/share/pyshared/netaddr/eui && sudo python ./ieee.py
-sudo mkdir /var/www/images/
 
 NOTE: You may have to add the main user to the "video" group to use the camera, if this isn't enabled by default.  To do this, run (as root, replacing 'username'): 
 
@@ -41,6 +41,12 @@ RUNNING:
 2) Restart system with "sudo restart", or unplug and replug device.
 3) In its configured state, "main.py" should execute on startup. If not, "sudo python main.py" will execute the main executable script.
 4) Stored images can be viewed at http://<DEVICEIP>/images/.
+
+=========================================================
+WEB INTERFACE
+=========================================================
+1) Navigate to /wifids/project/web
+2) Run "python manage.py runserver 0.0.0.0:6482
 
 =========================================================
 ACKNOWLEDGEMENTS:

@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^delete-mac$', 'wifids.views.delete_mac', name='delete-address'),
     url(r'^view-log$', 'wifids.views.view_log', name='view-log'),
     url(r'^view-images$', 'wifids.views.view_images', name='view-images'),
+    url(r'^image/(?P<filename>[a-zA-Z0-9_@\.\+\s\:\-]+)$', 'wifids.views.get_photo', name='image'),
 )

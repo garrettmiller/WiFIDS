@@ -33,8 +33,8 @@ Physical Jam Detection
 IMPLEMENTED:
 ==========================================
 Web GUI (would be dope -Roger)
-	Add authorized user via Web GUI
-	Correlate "Real names" to device MAC
+Add authorized user via Web GUI
+Correlate "Real names" to device MAC
 Use Database
 WiFi Survey
 RSSI Readings

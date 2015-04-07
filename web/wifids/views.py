@@ -2,8 +2,9 @@ import ConfigParser
 from __builtin__ import file
 import os
 
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponse
 from django.shortcuts import render, redirect
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -11,12 +12,13 @@ def home(request):
     context = {}
     
     context['selected'] = "view_mac"
-    if 'selected' in request.session:
-        context['selected'] = request.session['selected']
-        del request.session['selected']
+    if 'session' in request:
+        if 'selected' in request.session:
+            context['selected'] = request.session['selected']
+            del request.session['selected']
     
     config = ValuesWithCommentsConfigParser()
-    config.read(os.path.join(BASE_DIR,'config.cfg'))
+    config.read(os.path.join(BASE_DIR,'../config.cfg'))
 
     addressList = dict(config.items('AuthorizedClients'))
     names = {}
@@ -54,12 +56,12 @@ def add_mac(request):
     print address
     
     config = ValuesWithCommentsConfigParser()
-    config.read(os.path.join(BASE_DIR,'config.cfg'))
+    config.read(os.path.join(BASE_DIR,'../config.cfg'))
 
     count = 1
     
-    f = open(os.path.join(BASE_DIR,'config.cfg'), 'r')
-    wf = open(os.path.join(BASE_DIR,'_config.cfg'), 'w')
+    f = open(os.path.join(BASE_DIR,'../config.cfg'), 'r')
+    wf = open(os.path.join(BASE_DIR,'../_config.cfg'), 'w')
     
     section = False;
     prev_line = ''
@@ -87,7 +89,7 @@ def add_mac(request):
             
     f.close()
     wf.close()
-    os.rename(os.path.join(BASE_DIR,'_config.cfg'), os.path.join(BASE_DIR,'config.cfg'))
+    os.rename(os.path.join(BASE_DIR,'../_config.cfg'), os.path.join(BASE_DIR,'../config.cfg'))
     
     return redirect('home')
 
@@ -102,17 +104,17 @@ def delete_mac(request):
     print address
     
     config = ValuesWithCommentsConfigParser()
-    config.read(os.path.join(BASE_DIR,'config.cfg'))
+    config.read(os.path.join(BASE_DIR,'../config.cfg'))
 
-    f = open(os.path.join(BASE_DIR,'config.cfg'), 'r')
-    wf = open(os.path.join(BASE_DIR,'_config.cfg'), 'w')
+    f = open(os.path.join(BASE_DIR,'../config.cfg'), 'r')
+    wf = open(os.path.join(BASE_DIR,'../_config.cfg'), 'w')
     for line in f.readlines():
         if address not in line:
             wf.write(line)
             
     f.close()
     wf.close()
-    os.rename(os.path.join(BASE_DIR,'_config.cfg'), os.path.join(BASE_DIR,'config.cfg'))
+    os.rename(os.path.join(BASE_DIR,'../_config.cfg'), os.path.join(BASE_DIR,'../config.cfg'))
     
     return redirect('home')
 
@@ -120,7 +122,7 @@ def view_log(request):
     context = {}
     context['selected'] = "view_log"
     
-    with open (os.path.join(BASE_DIR,'DEVPLAN.txt'), "r") as f:
+    with open (os.path.join(BASE_DIR,'../DEVPLAN.txt'), "r") as f:
         context['log'] = f.read()
     
     
@@ -129,19 +131,60 @@ def view_log(request):
 def view_images(request):
     context = {}
     context['selected'] = "view_images"
-    path = os.path.join(BASE_DIR,'images')
+    path = 'wifids/images/'
     
     images = os.listdir(path)
     context['gallery'] = []
     
     for image in images:
-        if '.DS_Store' != image:
-            context['gallery'].append(image)
+#         file = path + image
+        if image is '.DS_Store':
+            continue
+        context['gallery'].append(image)
     
     print context['gallery']
+#     context['gallery'] = ['http://images.visitcanberra.com.au/images/canberra_hero_image.jpg',
+#                           'http://www.hdwallpapersimages.com/wp-content/uploads/2014/01/Winter-Tiger-Wild-Cat-Images.jpg',
+#                           'http://www.freelive3dwallpapers.com/wp-content/uploads/2014/03/images-7.jpg',
+#                           'http://upload.wikimedia.org/wikipedia/commons/a/a8/VST_images_the_Lagoon_Nebula.jpg',
+#                           'http://blog.jimdo.com/wp-content/uploads/2014/01/tree-247122.jpg',
+#                           'http://www.desktopwallpaperhd.net/wallpapers/21/7/wallpaper-sunset-images-back-217159.jpg',
+#                           'http://img.gettyimageslatam.com/public/userfiles/redesign/images/landing/home/img_entry_002.jpg',
+#                           'http://www.wired.com/images_blogs/rawfile/2013/11/offset_WaterHouseMarineImages_62652-2-660x440.jpg',
+#                           'http://www.google.com/imgres?imgurl=http://wowslider.com/sliders/demo-22/data1/images/nice_peafowl.jpg&imgrefurl=http://wowslider.com/javascript-slideshow-quiet-rotate-demo.html&h=360&w=960&tbnid=NfygeatVLosRWM:&zoom=1&docid=P6WVaBKnagPTaM&ei=8cgPVfGWLavfsATriYCYCA&tbm=isch&ved=0CEUQMygTMBM'
+#                           'http://www.gettyimages.co.uk/gi-resources/images/Homepage/Category-Creative/UK/UK_Creative_462809583.jpg']
     
     return render(request, 'wifids/gallery.html', context);
 
+
+def get_photo(request, filename):
+    context = {}
+    context['selected'] = "view_images"
+    path = 'wifids/images/'
+    
+    image = path + filename
+    print image
+    f = open(os.path.join(BASE_DIR, image), 'r')
+    data = f.read()
+    f.close()
+    
+    return HttpResponse(data, content_type=get_content_type(filename))
+
+def get_content_type(filename):
+    extension = filename.split('.')
+    if len(extension) >= 2:
+        extension = extension[len(extension)-1]
+    else:
+        return 'image/png'
+     
+    if extension == 'gif':
+        return "image/gif"
+    elif extension == 'png':
+        return 'image/png';
+    elif extension == 'jpeg' or filename is 'jpg':
+        return 'image/jpeg'
+
+    return 'image/png'
 
 class ValuesWithCommentsConfigParser(ConfigParser.ConfigParser):
 
@@ -223,3 +266,5 @@ class ValuesWithCommentsConfigParser(ConfigParser.ConfigParser):
             for name, val in options.items():
                 if isinstance(val, list):
                     options[name] = '\n'.join(val)
+
+
