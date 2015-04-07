@@ -26,6 +26,9 @@ import RPi.GPIO as gpio #Needed to access Raspberry Pi GPIO Pins
 from multiprocessing import Process #Needed for function concurrency
 from pimotion import * #Needed for motion detection
 
+#Cleanup any running gpio
+gpio.cleanup
+
 #Improves colorization compatibility, autoresets color after print.
 init(autoreset=True)
 
@@ -88,10 +91,13 @@ def doMotionDetect():
 def soundBuzzer():
 	gpio.setwarnings(False)
 	gpio.setmode(gpio.BOARD)
-	gpio.setup(7,gpio.OUT)
-	gpio.output(7,0)
-	time.sleep(.5)
-	gpio.output(7,1)
+	gpio.setup(11,gpio.OUT)
+	for i in range(0,5):
+		gpio.output(11,0)
+		time.sleep(.05)
+		gpio.output(11,1)
+		time.sleep(.05)
+		gpio.output(11,0)
 	time.sleep(.5)
 	gpio.cleanup
 		
