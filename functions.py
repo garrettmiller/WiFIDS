@@ -58,7 +58,7 @@ def doMotionDetect():
 			camera.hflip = True
 			camera.vflip = True
 			timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-			path="/var/www/images/"+timestamp+".jpg"
+			path="images/"+timestamp+".jpg"
 			camera.capture(path)
 			camera.close()
 			time.sleep(1)

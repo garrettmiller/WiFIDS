@@ -1,0 +1,150 @@
+body {
+	margin: auto;
+	background: #F5F5F5;
+}
+
+label {
+	margin: 10px 0;
+}
+
+.header {
+	margin: 30px 20px;
+}
+
+.heading {
+	margin: 15px 0;
+	font-weight: bold;
+	display: block;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.w15 {
+	width: 15%;
+}
+
+.w70 {
+	width: 70%;
+}
+
+.w100 {
+	width: 100%;
+}
+
+.content {
+	background: none repeat scroll 0 0 #aabbbb;
+	min-width: 1000px;
+	text-align: left;
+}
+
+.title {
+	font-weight: bold;
+	font-size: x-large;
+}
+
+input {
+	font-size: 15px;
+}
+
+.list h3 {
+	border-bottom: medium solid;
+}
+
+.top {
+	vertical-align: top;
+}
+
+.category>span {
+	border-bottom: medium solid darkblue;
+	border-color: darkblue;
+	color: blue;
+	display: block;
+	font-size: large;
+}
+
+.menu {
+	background: none repeat scroll 0 0 #ebebeb;
+	border-radius: 15px;
+	margin-right: -4px !important;
+	min-width: 70px;
+}
+
+.details {
+	
+}
+
+.menu, .details {
+	/* 	border: medium solid grey; */
+	min-height: 300px;
+	padding: 15px 10px;
+}
+
+.column {
+	display: inline-block;
+	margin: 20px 10px;
+}
+
+.options {
+	padding-left: 5px;
+}
+
+.options>li {
+	list-style-type: none;
+	margin: 5px 0;
+}
+
+.options a {
+	text-decoration: none;
+}
+
+.active span {
+	color: #00b2ff;
+}
+
+.new_address {
+	
+}
+
+.addresses-list {
+	
+}
+
+input[type="text"] {
+	min-width: 160px;
+}
+
+.row {
+	margin: 10px 0;
+}
+
+.row form {
+	margin-left: 40px;
+}
+
+.log {
+	margin: 10px;
+	border: thin solid #777777;
+}
+
+.log p {
+	padding: 5px 10px;
+}
+
+.gallery {
+	margin: 10px;
+}
+
+.gallery-item {
+	
+}
+
+.gallery-item img {
+	margin: 20px;
+	width: 250px;
+}
+
+.address, .name {
+	width: 180px;
+}

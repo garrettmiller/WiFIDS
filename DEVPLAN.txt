@@ -26,16 +26,15 @@ Facial Recognition (offsite)
 
 Brainstorm/Nice-to-have:
 =========================
-Web GUI (would be dope -Roger)
-	Add authorized user via Web GUI
-	Correlate "Real names" to device MAC
 Add ability to track with multiple units.
 Physical Jam Detection
 
 ==========================================
 IMPLEMENTED:
 ==========================================
-
+Web GUI (would be dope -Roger)
+	Add authorized user via Web GUI
+	Correlate "Real names" to device MAC
 Use Database
 WiFi Survey
 RSSI Readings

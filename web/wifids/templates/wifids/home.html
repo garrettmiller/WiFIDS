@@ -1,0 +1,31 @@
+{% extends "wifids/header.html" %} 
+{% load static %} 
+
+{% block content %}
+<div class="inline-block w100">
+	<div class="column w15 menu">
+		<div class="category">
+			<span>Options</span>
+			<ul class="options">
+				<li 
+				{% if selected = 'view_mac' %}
+				class="active"
+				{% endif %}
+				><a href="{% url 'home' %}"><span>View Mac Addresses</span></a></li>
+				<li
+				{% if selected = 'view_log' %}
+				class="active"
+				{% endif %}
+				><a href="{% url 'view-log' %}"><span>View Log</span></a></li>
+				<li
+				{% if selected = 'view_images' %}
+				class="active"
+				{% endif %}
+				><a href="{% url 'view-images' %}"><span>View Images</span></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="column w70 details top">{% block details %} {% endblock %}
+	</div>
+</div>
+{% endblock %}

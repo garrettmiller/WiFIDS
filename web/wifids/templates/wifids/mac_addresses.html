@@ -1,0 +1,42 @@
+{% extends "wifids/home.html" %} 
+{% load template %}
+{% block details %} 
+<div class="new_address">
+	<form method="post" action="{% url 'add-address' %}">
+		{% csrf_token %}
+		<span class="heading">Add a new MAC address: </span>
+		<div style="margin: 10px 0;">
+			<label for="address" style="margin-right: 40px;">Address: </label>
+			<input type="text" name="address">
+		</div>
+		<div style="margin: 10px 0;">
+			<label for="name" style="margin-right: 8px;">Device name: </label>
+			<input type="text" name="name">
+		</div>
+		<input type="submit" value="Add">
+	</form>
+
+</div>
+
+<div class="list">
+	<h3>List of MAC addresses</h3>
+	<div class="addresses-list">
+	{% for address in addresses %}
+		<div class="row block">
+			<span class="inline-block address">{{address}}</span>
+			{% if names|lookup:address %}
+			<span class="inline-block name">{{names|lookup:address}}</span>
+			{% endif %}
+			<form method="post" action="{% url 'delete-address' %}" class="inline-block">
+				{% csrf_token %}
+				<input type="hidden" name="address" value="{{address}}">
+				<input type="submit" value="Delete">
+			</form>
+		</div>
+	{% endfor %}
+	</div>
+	
+</div>
+
+{% endblock %}
+
