@@ -129,7 +129,7 @@ def view_log(request):
 def view_images(request):
     context = {}
     context['selected'] = "view_images"
-    path = os.path.join(BASE_DIR,'wifids/static/wifids/images')
+    path = os.path.join(BASE_DIR,'images')
     
     images = os.listdir(path)
     context['gallery'] = []

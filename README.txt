@@ -18,7 +18,6 @@ python-netaddr
 python-colorama
 python-scapy
 python-picamera
-apache2
 pi-motion-lite
 python-sqlite
 
@@ -26,7 +25,7 @@ Setup (on Debian-like OS):
 
 tar -xvf wifids.tar
 chmod +x *.py
-sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama python-picamera apache2 python-sqlite
+sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama python-picamera python-sqlite
 cd /usr/share/pyshared/netaddr/eui && sudo python ./ieee.py
 sudo mkdir /var/www/images/
 
