@@ -41,7 +41,7 @@ RUNNING:
 3) In its configured state, "main.py" should execute on startup. If not, "sudo python main.py" will execute the main executable script.
 
 =========================================================
-WEB INTERFACE
+WEB INTERFACE:
 =========================================================
 1) Navigate to <WiFIDS Directory>/web/
 2) Run "python manage.py runserver 0.0.0.0:6482"

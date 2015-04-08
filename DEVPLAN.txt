@@ -26,6 +26,7 @@ Facial Recognition (offsite)
 
 Brainstorm/Nice-to-have:
 =========================
+Handle EVERYTHING as Unix timestamps, interpret only as needed.
 Add ability to track with multiple units.
 Physical Jam Detection
 
