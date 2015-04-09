@@ -24,8 +24,10 @@ python-django
 
 Setup (on Debian-like OS. Assumes presence of user 'wifids'.):
 
-cd /home/wifids/ 
+cd /home/wifids/
 tar -xvf wifids.tar
+cd wifids/
+mkdir images
 chmod -R +xr *
 sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama python-picamera python-sqlite python-django
 cd /usr/share/pyshared/netaddr/eui && sudo python ./ieee.py
