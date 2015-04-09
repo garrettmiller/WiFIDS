@@ -40,7 +40,7 @@ def senddownmail(recipients, prettytime, cause):
 WiFIDS suggests investigating further.	
 	
 	""")
-	message['Subject'] = "[WiFIDS] WiFIDS is Down!"
+	message['Subject'] = "[WiFIDS] WiFIDS has a problem!"
 	message['From'] = "WiFIDS <cmuwifids@gmail.com>"
 	message['To'] = str(', '.join(recipients))
 	message.attach(text)
