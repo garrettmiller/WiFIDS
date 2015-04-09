@@ -1,6 +1,6 @@
 #!/usr/bin/python
 ###########################################################
-#WiFiDS - main.py								          #
+#WiFIDS - main.py								          #
 #Main Driver for WiFiDS                                   #
 #Roger Baker, Houston Hunt, Prashant Kumar, Garrett Miller#
 ###########################################################

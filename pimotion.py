@@ -1,6 +1,6 @@
 #!/usr/bin/python
 ###########################################################
-#WiFiDS - pimotion.py									  #
+#WiFIDS - pimotion.py									  #
 #Adapted from Pi-motion-lite, for WiFIDS                  #
 #originally by Claude Pageau Dec-2014					  #
 #https://github.com/pageauc                     		  #

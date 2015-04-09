@@ -1,6 +1,6 @@
 #!/usr/bin/python
 ###########################################################
-#WiFiDS - functions.py							          #
+#WiFIDS - functions.py							          #
 #Functions library for WiFiDS                             #
 #Roger Baker, Houston Hunt, Prashant Kumar, Garrett Miller#
 ###########################################################
@@ -143,7 +143,7 @@ def senddeauthmail(recipients, timestamp, mac, client):
 	Affected AP: """ + str(mac) + """
 	Observed Client (Likely Spoofed): """ + client + """
 	
-	WiFIDS suggests investigating further.	
+WiFIDS suggests investigating further.	
 	
 	""")
 	message['Subject'] = "[WiFIDS] Deauth Attack Detected!"
@@ -182,7 +182,7 @@ def sendintrudermail(recipients, path):
 	MAC Address: """ + str(result[1]) + """
 	Device Type: """ + result[4] + """
 
-	A photo of the intrusion is attached.
+A photo of the intrusion is attached.
 	""")
 	message['Subject'] = "[WiFIDS] Unauthorized Intrusion Detected!"
 	message['From'] = "WiFIDS <cmuwifids@gmail.com>"
