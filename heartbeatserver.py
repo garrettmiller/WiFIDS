@@ -27,14 +27,15 @@ ALERTCONTACTS = ["rjbaker@andrew.cmu.edu",
 #############################
 
 #Sends Email for deauths (obviously)
-def senddownmail(recipients, prettytime):
+def senddownmail(recipients, prettytime, cause):
 
 	#Build the email
 	message = MIMEMultipart()
 	sender= "cmuwifids@gmail.com"
-	text = MIMEText("""The heartbeat script has detected that WiFIDS is unresponsive. The event was logged at:
+	text = MIMEText("""The heartbeat script has detected a problem with WiFIDS. The event was logged at:
 
 	Time: """ + prettytime + """
+	Cause: """ + cause + """
 	
 WiFIDS suggests investigating further.	
 	
@@ -65,7 +66,8 @@ while True:
 		server.connect((WIFIDS_IP, TCP_PORT))
 	except:
 		print "[" + prettytime + "] Can't connect. Sending Email."
-		senddownmail(ALERTCONTACTS, prettytime)
+		cause = "Unable to connect to WiFIDS via TCP."
+		senddownmail(ALERTCONTACTS, prettytime, cause)
 		break
 	server.send(MAGICMESSAGE)
 	receivedData = server.recv(BUFFER_SIZE)
@@ -75,5 +77,6 @@ while True:
 		print "[" + prettytime + "] Everything is A-OK."
 	else:
 		print "[" + prettytime + "] Something isn't right. Sending Email."
-		senddownmail(ALERTCONTACTS, prettytime)
+		cause = "Incorrect response from WiFIDS."
+		senddownmail(ALERTCONTACTS, prettytime, cause)
 	time.sleep(30)

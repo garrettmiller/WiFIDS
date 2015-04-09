@@ -1,5 +1,5 @@
 ***********************************************************
-*WiFiDS - A Wireless-Physical IDS with Jam Detection      *
+*WiFIDS - A Wireless-Physical IDS with Jam Detection      *
 *Roger Baker, Houston Hunt, Prashant Kumar, Garrett Miller*
 *18-731, Spring 2015, Carnegie Mellon University          *
 ***********************************************************
