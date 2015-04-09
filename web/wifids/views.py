@@ -131,7 +131,7 @@ def view_log(request):
 def view_images(request):
     context = {}
     context['selected'] = "view_images"
-    path = 'wifids/images/'
+    path = '/home/wifids/wifids/images/'
     
     images = os.listdir(path)
     context['gallery'] = []
@@ -160,7 +160,7 @@ def view_images(request):
 def get_photo(request, filename):
     context = {}
     context['selected'] = "view_images"
-    path = 'wifids/images/'
+    path = '/home/wifids/wifids/images/'
     
     image = path + filename
     print image

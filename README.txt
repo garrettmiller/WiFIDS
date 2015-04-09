@@ -22,8 +22,9 @@ pi-motion-lite
 python-sqlite
 python-django
 
-Setup (on Debian-like OS):
+Setup (on Debian-like OS. Assumes presence of user 'wifids'.):
 
+cd /home/wifids/ 
 tar -xvf wifids.tar
 chmod -R +xr *
 sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama python-picamera python-sqlite python-django
@@ -43,7 +44,7 @@ RUNNING:
 =========================================================
 WEB INTERFACE:
 =========================================================
-1) Navigate to <WiFIDS IP>:6482
+1) Navigate to http://<WiFIDS IP>:6482
 
 =========================================================
 ACKNOWLEDGEMENTS:
