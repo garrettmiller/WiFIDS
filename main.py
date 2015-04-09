@@ -41,7 +41,10 @@ startweb = subprocess.Popen(['python', 'web/manage.py', 'runserver', '0.0.0.0:'+
 #Start both functions simultaneously
 p1 = Process(target=doMotionDetect)
 p2 = Process(target=doPcap)
+p3 = Process(target=runHeartbeat)
 p1.start()
 p2.start()
+p3.start()
 p1.join()
 p2.join()
+p3.join()

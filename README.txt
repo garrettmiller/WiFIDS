@@ -22,7 +22,7 @@ pi-motion-lite
 python-sqlite
 python-django
 
-Setup (on Debian-like OS. Assumes presence of user 'wifids'.):
+Setup (on Debian-like OS. Assumes presence of user 'wifids'):
 
 cd /home/wifids/
 tar -xvf wifids.tar
@@ -33,8 +33,7 @@ sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr
 cd /usr/share/pyshared/netaddr/eui && sudo python ./ieee.py
 
 NOTE: You may have to add the main user to the "video" group to use the camera, if this isn't enabled by default.  To do this, run (as root, replacing 'username'): 
-
-sudo usermod -G video <username>
+# usermod -G video <username>
 
 =========================================================
 RUNNING:
@@ -47,6 +46,13 @@ RUNNING:
 WEB INTERFACE:
 =========================================================
 1) Navigate to http://<WiFIDS IP>:6482
+
+=========================================================
+HEARTBEAT SCRIPT:
+=========================================================
+1) Copy heartbeatserver.py to another host on your network.
+2) Modify the file, adding desired port and known IP of WiFIDS.
+3) Run with ./heartbeatserver.py
 
 =========================================================
 ACKNOWLEDGEMENTS:

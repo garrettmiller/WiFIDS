@@ -23,6 +23,7 @@ import time #Needed for timing on/off of things
 import datetime #Needed for labeling date/time
 import sqlite3 #Needed for local database
 import RPi.GPIO as gpio #Needed to access Raspberry Pi GPIO Pins
+import socket #Needed to send TCP for heartbeat script
 from multiprocessing import Process #Needed for function concurrency
 from pimotion import * #Needed for motion detection
 
@@ -101,6 +102,25 @@ def soundBuzzer():
 		gpio.output(11,0)
 	time.sleep(.5)
 	gpio.cleanup
+
+#Run Heartbeat Script
+def runHeartbeat():
+	TCP_IP = '127.0.0.1'
+	TCP_PORT = 18731
+	BUFFER_SIZE = 1024
+	server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	server.bind((TCP_IP, TCP_PORT))
+	server.listen(1)
+	conn, addr = server.accept()
+	print 'Connection address:', addr
+	while 1:
+		receivedData = conn.recv(BUFFER_SIZE)
+		if not data: break
+		if receivedData == "I love WiFIDS!":
+			conn.send("I do too!")
+		else:
+			conn.send("Why don't you love WiFIDS?")
+	conn.close()
 		
 def doPcap():
 	#Actually run the sniffer. store=0 is required to keep memory from filling with packets.
