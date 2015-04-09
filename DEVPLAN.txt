@@ -45,3 +45,4 @@ Photographing
 EMailing with Photographs
 Motion Sensor Trigger
 Logical Jam Detection
+Handle everything as UNIX timestamps, interpret as needed

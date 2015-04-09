@@ -57,8 +57,9 @@ def doMotionDetect():
 			camera.resolution = (1024, 768)
 			camera.hflip = True
 			camera.vflip = True
-			timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-			path="images/"+timestamp+".jpg"
+			timestamp = int(time.time())
+			prettytime = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+			path="images/"+prettytime+".jpg"
 			camera.capture(path)
 			camera.close()
 			time.sleep(1)
@@ -152,7 +153,7 @@ def sendintrudermail(recipients, path):
 	text = MIMEText("""An unauthorized intrusion was detected into the secure area.  Intruder details:
 
 	Location: Front Door
-	Time: """ + result[0] + """
+	Time: """ + datetime.datetime.fromtimestamp(result[0]).strftime('%Y-%m-%d %H:%M:%S') + """
 	MAC Address: """ + str(result[1]) + """
 	Device Type: """ + result[4] + """
 
@@ -301,7 +302,8 @@ def runsniffer(p):
 					print Fore.GREEN + "Authorized Device - RSSI: " + str(rssi)
 				else: #Someone is unauthorized!
 					print Fore.RED + "WARNING - Device is unauthorized! - RSSI: " + str(rssi)
-					timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+					timestamp = int(time.time())
+					prettytime = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
 					soundBuzzer()
 					
 					#Add unauthorized event information to database.
