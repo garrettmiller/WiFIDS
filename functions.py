@@ -108,20 +108,23 @@ def runHeartbeat():
 	TCP_IP = '127.0.0.1'
 	TCP_PORT = 18731
 	BUFFER_SIZE = 1024
-	server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	server.bind((TCP_IP, TCP_PORT))
-	server.listen(1)
-	conn, addr = server.accept()
-	print 'Connection address:', addr
 	while 1:
+		server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		server.bind((TCP_IP, TCP_PORT))
+		server.listen(1)
+		conn, addr = server.accept()
 		receivedData = conn.recv(BUFFER_SIZE)
-		if not data: break
+		if not receivedData: break
 		if receivedData == "I love WiFIDS!":
 			conn.send("I do too!")
+			break
 		else:
 			conn.send("Why don't you love WiFIDS?")
-	conn.close()
-		
+			break
+		conn.close()
+		server.close()
+
+
 def doPcap():
 	#Actually run the sniffer. store=0 is required to keep memory from filling with packets.
 	sniff(iface='mon0', prn=runsniffer, store=0)

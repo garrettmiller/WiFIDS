@@ -10,7 +10,6 @@ Entry/Sensor Correlation
 
 Tier 1:
 =========================
-Am I alive? Heartbeat Ping to Other Machine. Required per Vyas.
 
 Tier 2:
 =========================
@@ -46,3 +45,4 @@ EMailing with Photographs
 Motion Sensor Trigger
 Logical Jam Detection
 Handle everything as UNIX timestamps, interpret as needed
+Heartbeat Ping to Other Machine.
