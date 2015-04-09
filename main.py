@@ -5,7 +5,11 @@
 #Roger Baker, Houston Hunt, Prashant Kumar, Garrett Miller#
 ###########################################################
 
-from functions import * #Our functions file
+#Import all our functions
+from functions import * 
+
+#Set Port to run Webserver on
+WEBPORT = 6482
 
 #Check to see if we're root
 if os.geteuid() != 0:
@@ -30,6 +34,9 @@ connection.close()
 cleanup = subprocess.call(['iw', 'dev', 'mon0', 'del'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 startmon = subprocess.call(['iw', 'dev', 'wlan0', 'interface', 'add', 'mon0', 'type', 'monitor'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 monup = subprocess.call(['ifconfig', 'mon0', 'up'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+#Start Web GUI
+startweb = subprocess.Popen(['python', 'web/manage.py', 'runserver', '0.0.0.0:'+str(WEBPORT)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 #Start both functions simultaneously
 p1 = Process(target=doMotionDetect)

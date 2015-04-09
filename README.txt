@@ -43,8 +43,7 @@ RUNNING:
 =========================================================
 WEB INTERFACE:
 =========================================================
-1) Navigate to <WiFIDS Directory>/web/
-2) Run "python manage.py runserver 0.0.0.0:6482"
+1) Navigate to <WiFIDS IP>:6482
 
 =========================================================
 ACKNOWLEDGEMENTS:
