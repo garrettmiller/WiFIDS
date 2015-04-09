@@ -51,8 +51,9 @@ WEB INTERFACE:
 HEARTBEAT SCRIPT:
 =========================================================
 1) Copy heartbeatserver.py to another host on your network.
-2) Modify the file, adding desired port and known IP of WiFIDS, as well as emails to notify.
-3) Run with ./heartbeatserver.py - ensure WiFIDS is running first!
+2) Make it executable with "chmod +x heartbeatserver.py"
+3) Modify the file, adding desired port and known IP of WiFIDS, as well as emails to notify.
+4) Run with python (or python2 if needed) heartbeatserver.py - ensure WiFIDS is running first!
 
 =========================================================
 ACKNOWLEDGEMENTS:
