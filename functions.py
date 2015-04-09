@@ -105,25 +105,27 @@ def soundBuzzer():
 
 #Run Heartbeat Script
 def runHeartbeat():
-	TCP_IP = '127.0.0.1'
-	TCP_PORT = 18731
-	BUFFER_SIZE = 1024
-	while 1:
-		server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		server.bind((TCP_IP, TCP_PORT))
-		server.listen(1)
-		conn, addr = server.accept()
-		receivedData = conn.recv(BUFFER_SIZE)
-		if not receivedData: break
-		if receivedData == "I love WiFIDS!":
-			conn.send("I do too!")
-			break
-		else:
-			conn.send("Why don't you love WiFIDS?")
-			break
-		conn.close()
-		server.close()
-
+	#Listen all the time.
+	while True:
+		TCP_PORT = 18731
+		BUFFER_SIZE = 1024
+		while True:
+			server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			#Lets us reuse the socket if it happens to be in TIME_WAIT status.
+			server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+			server.bind(('', TCP_PORT))
+			server.listen(1)
+			conn, addr = server.accept()
+			receivedData = conn.recv(BUFFER_SIZE)
+			if not receivedData: break
+			if receivedData == "I love WiFIDS!":
+				conn.send("I do too!")
+				break
+			else:
+				conn.send("Why don't you love WiFIDS?")
+				break
+			conn.close()
+			server.close()
 
 def doPcap():
 	#Actually run the sniffer. store=0 is required to keep memory from filling with packets.
