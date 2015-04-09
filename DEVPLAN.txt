@@ -15,6 +15,7 @@ Am I alive? Heartbeat Ping to Other Machine. Required per Vyas.
 Tier 2:
 =========================
 Abnormal Traffic Analysis "Why is Boss in office at 11pm?"
+	Will likely require use of DB
 
 Tier 3:
 =========================
@@ -22,18 +23,17 @@ Historical Analysis
 Traffic Logging/Analysis
 	Beacon Logging/Locating/Analysis
 	WIGLE Lookup?
-Facial Recognition (offsite)
 
 Brainstorm/Nice-to-have:
 =========================
-Handle EVERYTHING as Unix timestamps, interpret only as needed.
 Add ability to track with multiple units.
 Physical Jam Detection
+Facial Recognition (offsite)
 
 ==========================================
 IMPLEMENTED:
 ==========================================
-Web GUI (would be dope -Roger)
+Web GUI (is dope -Roger)
 Add authorized user via Web GUI
 Correlate "Real names" to device MAC
 Use Database
