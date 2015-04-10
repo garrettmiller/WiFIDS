@@ -49,12 +49,12 @@ WEB INTERFACE:
 1) Navigate to http://<WiFIDS IP>:6482
 
 =========================================================
-HEARTBEAT SCRIPT (with RSA encryption):
+HEARTBEAT SCRIPT (with AES encryption):
 =========================================================
 1) Copy heartbeatserver.py to another host on your network.
-2) Ensure pycrypto is installed - "sudo apt-get install python-crypto"
+2) Ensure pycrypto is installed - "sudo apt-get install python-crypto" (on Debian-like)
 3) Make the script executable with "chmod +x heartbeatserver.py"
-4) Modify the file, adding desired port and known IP of WiFIDS, as well as emails to notify. Change keys if desired.
+4) Modify the file, adding desired port and known IP of WiFIDS, as well as emails to notify. Change AES keys if desired.
 5) Run "python heartbeatserver.py" - ensure WiFIDS is running first!
 
 =========================================================
