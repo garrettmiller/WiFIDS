@@ -95,5 +95,5 @@ while True:
 		print "Received: " + decrypt(receivedData, AESKEY)
 		print "[" + prettytime + "] Something isn't right. Sending Email."
 		cause = "Incorrect response from WiFIDS."
-		#senddownmail(ALERTCONTACTS, prettytime, cause)
+		senddownmail(ALERTCONTACTS, prettytime, cause)
 	time.sleep(30)
