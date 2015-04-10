@@ -41,7 +41,7 @@ def encrypt_RSA(message):
 
 #Decrypts message for security	
 def decrypt_RSA(package):
-	key = open('server-public.key', "r").read() 
+	key = open('server-private.key', "r").read() 
 	rsakey = RSA.importKey(key) 
 	rsakey = PKCS1_OAEP.new(rsakey) 
 	decrypted = rsakey.decrypt(b64decode(package)) 
