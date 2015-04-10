@@ -32,18 +32,16 @@ ALERTCONTACTS = ["rjbaker@andrew.cmu.edu",
 #############################
 
 #Encrypts message for security
-def encrypt_RSA(public_key_loc, message):
-
-	key = open(public_key_loc, "r").read()
+def encrypt_RSA(message):
+	key = open('wifids-public.key', "r").read()
 	rsakey = RSA.importKey(key)
 	rsakey = PKCS1_OAEP.new(rsakey)
 	encrypted = rsakey.encrypt(message)
 	return encrypted.encode('base64')
 
 #Decrypts message for security	
-def decrypt_RSA(private_key_loc, package):
-
-	key = open(private_key_loc, "r").read() 
+def decrypt_RSA(package):
+	key = open('server-public.key', "r").read() 
 	rsakey = RSA.importKey(key) 
 	rsakey = PKCS1_OAEP.new(rsakey) 
 	decrypted = rsakey.decrypt(b64decode(package)) 
@@ -51,7 +49,6 @@ def decrypt_RSA(private_key_loc, package):
 
 #Sends Email for deauths (obviously)
 def senddownmail(recipients, prettytime, cause):
-
 	#Build the email
 	message = MIMEMultipart()
 	sender= "cmuwifids@gmail.com"
@@ -92,11 +89,11 @@ while True:
 		cause = "Unable to connect to WiFIDS via TCP."
 		senddownmail(ALERTCONTACTS, prettytime, cause)
 		break
-	server.send(MAGICMESSAGE)
+	server.send(encrypt_RSA(MAGICMESSAGE))
 	receivedData = server.recv(BUFFER_SIZE)
 	server.close()
 	
-	if receivedData == "I do too!":
+	if decrypt_RSA(receivedData) == "I do too!":
 		print "[" + prettytime + "] Everything is A-OK."
 	else:
 		print "[" + prettytime + "] Something isn't right. Sending Email."

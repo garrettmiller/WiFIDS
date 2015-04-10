@@ -93,18 +93,16 @@ def doMotionDetect():
 		stream2 = stream1
 
 #Encrypts message for security
-def encrypt_RSA(public_key_loc, message):
-
-	key = open(public_key_loc, "r").read()
+def encrypt_RSA(message):
+	key = open('server-public.key', "r").read()
 	rsakey = RSA.importKey(key)
 	rsakey = PKCS1_OAEP.new(rsakey)
 	encrypted = rsakey.encrypt(message)
 	return encrypted.encode('base64')
 
 #Decrypts message for security	
-def decrypt_RSA(private_key_loc, package):
-
-	key = open(private_key_loc, "r").read() 
+def decrypt_RSA(package):
+	key = open('wifids-public.key', "r").read() 
 	rsakey = RSA.importKey(key) 
 	rsakey = PKCS1_OAEP.new(rsakey) 
 	decrypted = rsakey.decrypt(b64decode(package)) 
@@ -139,11 +137,11 @@ def runHeartbeat():
 			conn, addr = server.accept()
 			receivedData = conn.recv(BUFFER_SIZE)
 			if not receivedData: break
-			if receivedData == "I love WiFIDS!":
-				conn.send("I do too!")
+			if decrypt_RSA(receivedData) == "I love WiFIDS!":
+				conn.send(encrypt_RSA("I do too!"))
 				break
 			else:
-				conn.send("Why don't you love WiFIDS?")
+				conn.send(encrypt_RSA("Why don't you love WiFIDS?"))
 				break
 			conn.close()
 			server.close()
