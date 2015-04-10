@@ -14,9 +14,9 @@ import smtplib #Needed for sending alerts
 from email.mime.text import MIMEText #Needed for sending alerts
 from email.mime.image import MIMEImage #Needed for sending alerts
 from email.mime.multipart import MIMEMultipart #Needed for sending alerts
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
-from base64 import b64decode 
+from Crypto.PublicKey import RSA #Needed for crypto functions
+from Crypto.Cipher import PKCS1_OAEP #Needed for crypto functions
+from base64 import b64decode #Needed for crypto functions
 
 #############################
 #DEFINE PARAMETERS HERE		#

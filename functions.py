@@ -26,6 +26,9 @@ import RPi.GPIO as gpio #Needed to access Raspberry Pi GPIO Pins
 import socket #Needed to send TCP for heartbeat script
 from multiprocessing import Process #Needed for function concurrency
 from pimotion import * #Needed for motion detection
+from Crypto.PublicKey import RSA #Needed for crypto functions
+from Crypto.Cipher import PKCS1_OAEP #Needed for crypto functions
+from base64 import b64decode #Needed for crypto functions
 
 #Cleanup any running gpio
 gpio.cleanup
