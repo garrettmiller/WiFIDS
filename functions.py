@@ -91,15 +91,6 @@ def doMotionDetect():
 			stream2 = stream1
 
 		stream2 = stream1
-		
-#Generates RSA Keys
-def generate_RSA(bits=2048):
-
-	from Crypto.PublicKey import RSA 
-	new_key = RSA.generate(bits, e=65537) 
-	public_key = new_key.publickey().exportKey("PEM")
-	private_key = new_key.exportKey("PEM") 
-	return private_key, public_key
 
 #Encrypts message for security
 def encrypt_RSA(public_key_loc, message):
