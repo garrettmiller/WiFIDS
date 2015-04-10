@@ -88,6 +88,33 @@ def doMotionDetect():
 			stream2 = stream1
 
 		stream2 = stream1
+		
+#Generates RSA Keys
+def generate_RSA(bits=2048):
+
+	from Crypto.PublicKey import RSA 
+	new_key = RSA.generate(bits, e=65537) 
+	public_key = new_key.publickey().exportKey("PEM")
+	private_key = new_key.exportKey("PEM") 
+	return private_key, public_key
+
+#Encrypts message for security
+def encrypt_RSA(public_key_loc, message):
+
+	key = open(public_key_loc, "r").read()
+	rsakey = RSA.importKey(key)
+	rsakey = PKCS1_OAEP.new(rsakey)
+	encrypted = rsakey.encrypt(message)
+	return encrypted.encode('base64')
+
+#Decrypts message for security	
+def decrypt_RSA(private_key_loc, package):
+
+	key = open(private_key_loc, "r").read() 
+	rsakey = RSA.importKey(key) 
+	rsakey = PKCS1_OAEP.new(rsakey) 
+	decrypted = rsakey.decrypt(b64decode(package)) 
+	return decrypted
 
 #Make Noise
 def soundBuzzer():

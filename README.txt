@@ -21,6 +21,7 @@ python-picamera
 pi-motion-lite
 python-sqlite
 python-django
+python-crypto
 
 Setup (on Debian-like OS. Assumes presence of user 'wifids'):
 
@@ -29,7 +30,7 @@ tar -xvf wifids.tar
 cd wifids/
 mkdir images
 chmod -R +xr *
-sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama python-picamera python-sqlite python-django
+sudo apt-get -y install python libssl-dev iw python-scapy tcpdump python-netaddr python-colorama python-picamera python-sqlite python-django python-crypto
 cd /usr/share/pyshared/netaddr/eui && sudo python ./ieee.py
 
 NOTE: You may have to add the main user to the "video" group to use the camera, if this isn't enabled by default.  To do this, run (as root, replacing 'username'): 

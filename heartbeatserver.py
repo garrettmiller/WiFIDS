@@ -1,8 +1,10 @@
 #!/usr/bin/python
 ###########################################################
-#WiFIDS - heartbeatserver.py					          #
-#Heartbeat server to talk to WiFIDS                       #
+#WiFIDS - heartbeatserver.py							  #
+#Heartbeat server to talk to WiFIDS						  #
 #Roger Baker, Houston Hunt, Prashant Kumar, Garrett Miller#
+#Some Crypto Functions inspired by:                       #
+#https://launchkey.com/docs/api/encryption                #
 ###########################################################
 
 import socket
@@ -12,9 +14,12 @@ import smtplib #Needed for sending alerts
 from email.mime.text import MIMEText #Needed for sending alerts
 from email.mime.image import MIMEImage #Needed for sending alerts
 from email.mime.multipart import MIMEMultipart #Needed for sending alerts
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+from base64 import b64decode 
 
 #############################
-#DEFINE PARAMETERS HERE     #
+#DEFINE PARAMETERS HERE		#
 #############################
 WIFIDS_IP = '127.0.0.1'
 TCP_PORT = 18731
@@ -25,6 +30,33 @@ ALERTCONTACTS = ["rjbaker@andrew.cmu.edu",
 "hgh@andrew.cmu.edu",
 "gmmiller@andrew.cmu.edu"]
 #############################
+
+#Generates RSA Keys
+def generate_RSA(bits=2048):
+
+	from Crypto.PublicKey import RSA 
+	new_key = RSA.generate(bits, e=65537) 
+	public_key = new_key.publickey().exportKey("PEM") 
+	private_key = new_key.exportKey("PEM") 
+	return private_key, public_key
+
+#Encrypts message for security
+def encrypt_RSA(public_key_loc, message):
+
+	key = open(public_key_loc, "r").read()
+	rsakey = RSA.importKey(key)
+	rsakey = PKCS1_OAEP.new(rsakey)
+	encrypted = rsakey.encrypt(message)
+	return encrypted.encode('base64')
+
+#Decrypts message for security	
+def decrypt_RSA(private_key_loc, package):
+
+	key = open(private_key_loc, "r").read() 
+	rsakey = RSA.importKey(key) 
+	rsakey = PKCS1_OAEP.new(rsakey) 
+	decrypted = rsakey.decrypt(b64decode(package)) 
+	return decrypted
 
 #Sends Email for deauths (obviously)
 def senddownmail(recipients, prettytime, cause):
