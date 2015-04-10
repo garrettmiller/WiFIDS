@@ -51,13 +51,11 @@ WEB INTERFACE:
 =========================================================
 HEARTBEAT SCRIPT (with RSA encryption):
 =========================================================
-1) Run ./genkeys-server.py if running for the first time.
-2) Copy heartbeatserver.py, server-private.key to another host on your network.
-3) Remove server-private.key from the WiFIDS host with "rm server-private.key"
-4) Ensure pycrypto is installed - "sudo apt-get install python-crypto"
-5) Make it executable with "chmod +x heartbeatserver.py"
-6) Modify the file, adding desired port and known IP of WiFIDS, as well as emails to notify.
-7) Run "python heartbeatserver.py" - ensure WiFIDS is running first!
+1) Copy heartbeatserver.py to another host on your network.
+2) Ensure pycrypto is installed - "sudo apt-get install python-crypto"
+3) Make the script executable with "chmod +x heartbeatserver.py"
+4) Modify the file, adding desired port and known IP of WiFIDS, as well as emails to notify. Change keys if desired.
+5) Run "python heartbeatserver.py" - ensure WiFIDS is running first!
 
 =========================================================
 ACKNOWLEDGEMENTS:

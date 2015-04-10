@@ -26,9 +26,16 @@ import RPi.GPIO as gpio #Needed to access Raspberry Pi GPIO Pins
 import socket #Needed to send TCP for heartbeat script
 from multiprocessing import Process #Needed for function concurrency
 from pimotion import * #Needed for motion detection
-from Crypto.PublicKey import RSA #Needed for crypto functions
-from Crypto.Cipher import PKCS1_OAEP #Needed for crypto functions
-from base64 import b64decode #Needed for crypto functions
+from Crypto.Cipher import AES #Needed for crypto functions
+from Crypto import Random #Needed to seed IV
+import base64 #Needed for crypto functions
+
+#############################
+#DEFINE PARAMETERS HERE		#
+#############################
+#Set Key for Crypto Functions
+AESKEY = "ASixteenByteKey!"
+#############################
 
 #Cleanup any running gpio
 gpio.cleanup
@@ -93,20 +100,17 @@ def doMotionDetect():
 		stream2 = stream1
 
 #Encrypts message for security
-def encrypt_RSA(message):
-	key = open('server-public.key', "r").read()
-	rsakey = RSA.importKey(key)
-	rsakey = PKCS1_OAEP.new(rsakey)
-	encrypted = rsakey.encrypt(message)
-	return encrypted.encode('base64')
-
+def encrypt(message, AESKEY):
+	iv = Random.new().read(AES.block_size)
+	cipher = AES.new(AESKEY, AES.MODE_CFB, iv)
+	return base64.b64encode( iv + cipher.encrypt( message ) )
+	
 #Decrypts message for security	
-def decrypt_RSA(package):
-	key = open('wifids-private.key', "r").read() 
-	rsakey = RSA.importKey(key) 
-	rsakey = PKCS1_OAEP.new(rsakey) 
-	decrypted = rsakey.decrypt(b64decode(package)) 
-	return decrypted
+def decrypt(package, AESKEY):
+	package = base64.b64decode(package)
+	iv = package[:16]
+	cipher = AES.new(AESKEY, AES.MODE_CFB, iv)
+	return cipher.decrypt( package[16:] )
 
 #Make Noise
 def soundBuzzer():
@@ -137,11 +141,11 @@ def runHeartbeat():
 			conn, addr = server.accept()
 			receivedData = conn.recv(BUFFER_SIZE)
 			if not receivedData: break
-			if decrypt_RSA(receivedData) == "I love WiFIDS!":
-				conn.send(encrypt_RSA("I do too!"))
+			if decrypt(receivedData, AESKEY) == "I love WiFIDS!":
+				conn.send(encrypt("I do too!", AESKEY))
 				break
 			else:
-				conn.send(encrypt_RSA("Why don't you love WiFIDS?"))
+				conn.send(encrypt("Why don't you love WiFIDS?", AESKEY))
 				break
 			conn.close()
 			server.close()
