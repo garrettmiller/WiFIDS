@@ -351,7 +351,6 @@ def runsniffer(p):
 				else: #Someone is unauthorized!
 					print Fore.RED + "WARNING - Device is unauthorized! - RSSI: " + str(rssi)
 					timestamp = int(time.time())
-					prettytime = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
 					soundBuzzer()
 					
 					#Add unauthorized event information to database.
