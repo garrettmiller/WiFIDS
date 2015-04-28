@@ -35,6 +35,8 @@ import base64 #Needed for crypto functions
 #############################
 #Set Key for Crypto Functions
 AESKEY = "ASixteenByteKey!"
+#Set RSSI floor for sensitivity
+RSSIFLOOR = -50
 #############################
 
 #Cleanup any running gpio
@@ -327,36 +329,39 @@ def runsniffer(p):
 			#Define RSSI, we have to manually carve this out.
 			rssi = (ord(p.notdecoded[-4:-3])-256)
 
-			# Check our list and if client isn't there, add to list.
-			# Also perform OUI lookup on MAC. Checks for invalid OUI.
-			if p.addr2 not in observedClients:
-				try:
-					oui = EUI(mac).oui.registration().org
-				except:
-					oui = "Invalid/Unknown OUI"
-				print "["+ mac + "] " + oui + " -",
-				observedClients.append(mac)
+			#Check RSSI floor to see if device is in our space.
+			if rssi > RSSIFLOOR:
 
-				#Iterate through config file items to see if device is authorized.
-				for key, authorizedClient in authorizedClients:
-					if str(mac) == string.lower(authorizedClient):
-						authorizedFlag = 1
-						break
-					else:
-						authorizedFlag = 0
+				# Check our list and if client isn't there, add to list.
+				# Also perform OUI lookup on MAC. Checks for invalid OUI.
+				if p.addr2 not in observedClients:
+					try:
+						oui = EUI(mac).oui.registration().org
+					except:
+						oui = "Invalid/Unknown OUI"
+					print "["+ mac + "] " + oui + " -",
+					observedClients.append(mac)
 
-				#Perform appropriate action.
-				if authorizedFlag == 1:
-					print Fore.GREEN + "Authorized Device - RSSI: " + str(rssi)
-				else: #Someone is unauthorized!
-					print Fore.RED + "WARNING - Device is unauthorized! - RSSI: " + str(rssi)
-					timestamp = int(time.time())
-					soundBuzzer()
+					#Iterate through config file items to see if device is authorized.
+					for key, authorizedClient in authorizedClients:
+						if str(mac) == string.lower(authorizedClient):
+							authorizedFlag = 1
+							break
+						else:
+							authorizedFlag = 0
+
+					#Perform appropriate action.
+					if authorizedFlag == 1:
+						print Fore.GREEN + "Authorized Device - RSSI: " + str(rssi)
+					else: #Someone is unauthorized!
+						print Fore.RED + "WARNING - Device is unauthorized! - RSSI: " + str(rssi)
+						timestamp = int(time.time())
+						soundBuzzer()
 					
-					#Add unauthorized event information to database.
-					connection = sqlite3.connect('wifids.db')
-					cursor = connection.cursor()
-					connection.text_factory = str
-					cursor.execute("INSERT INTO probes VALUES (?, ?, ?, ?, ?)", (timestamp, mac, str(rssi), str(p.info), oui))
-					connection.commit()
-					connection.close()
+						#Add unauthorized event information to database.
+						connection = sqlite3.connect('wifids.db')
+						cursor = connection.cursor()
+						connection.text_factory = str
+						cursor.execute("INSERT INTO probes VALUES (?, ?, ?, ?, ?)", (timestamp, mac, str(rssi), str(p.info), oui))
+						connection.commit()
+						connection.close()
