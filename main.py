@@ -9,8 +9,9 @@
 from functions import * 
 
 #############################
-#Set Port to run Webserver on
+#SET PARAMETERS HERE        #
 #############################
+#Set Port to run Webserver on
 WEBPORT = 6482
 #############################
 

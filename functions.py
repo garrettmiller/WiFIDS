@@ -31,7 +31,7 @@ from Crypto import Random #Needed to seed IV
 import base64 #Needed for crypto functions
 
 #############################
-#DEFINE PARAMETERS HERE		#
+#SET PARAMETERS HERE		#
 #############################
 #Set Key for Crypto Functions
 AESKEY = "ASixteenByteKey!"
@@ -74,9 +74,9 @@ def doMotionDetect():
 			prettytime = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
 			path="images/"+prettytime+".jpg"
 			camera.capture(path)
+			print Fore.YELLOW + "Photo Taken!"
 			camera.close()
 			time.sleep(1)
-			print Fore.YELLOW + "Photo Taken!"
 						
 			#Add motion event information to database.
 			connection = sqlite3.connect('wifids.db')

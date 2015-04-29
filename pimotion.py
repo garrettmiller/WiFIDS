@@ -11,10 +11,14 @@
 import picamera.array #Needed to track motion
 import time #Needed for keeping track of time
 
+###########################
+#SET PARAMETERS HERE   #
+###########################
 threshold = 10     # How Much a pixel has to change
-sensitivity = 200  # How Many pixels need to change for motion detection
-testWidth = 100
-testHeight = 75
+sensitivity = 800  # How Many pixels need to change for motion detection
+testWidth = 200
+testHeight = 150
+###########################
 
 def checkForMotion(data1, data2):
 	# Find motion between two data streams based on sensitivity and threshold
@@ -37,9 +41,9 @@ def checkForMotion(data1, data2):
 	return motionDetected  
  
 def getStreamImage():
-	# Capture an image stream to memory based on daymode
+	# Capture an image stream to memory
 	with picamera.PiCamera() as camera:
-		time.sleep(2)
+		time.sleep(1)
 		camera.resolution = (testWidth, testHeight)
 		with picamera.array.PiRGBArray(camera) as stream:
 			camera.exposure_mode = 'auto'
