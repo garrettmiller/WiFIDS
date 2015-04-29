@@ -89,7 +89,7 @@ def doMotionDetect():
 			sendList = []
 			for key, alertContact in alertContacts:
 				sendList.append(alertContact)
-			#sendmail(sendList, path)
+			sendintrudermail(sendList, path)
 
 			#Initiate a counter to keep motion detection image fresh.
 			cycle = cycle + 1

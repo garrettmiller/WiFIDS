@@ -2,6 +2,10 @@
 OUTSTANDING:
 ==========================================
 
+2015-04-28 - Garrett
+	Sendmail on motion event fails if no unauthorized devices have been observed.
+	Possibly circumvent with a try:, or move email action to unauthorized device vs. motion.
+
 2015-03-12 - Garrett
 	Motion detection is freaking out after a while and then triggering tons of events.  Not sure of cause yet.
 	Somewhat fixed, but not entirely on 2015-03-19. Counting a loop of image caps. Probably a better way. -Garrett
