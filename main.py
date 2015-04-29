@@ -8,8 +8,11 @@
 #Import all our functions
 from functions import * 
 
+#############################
 #Set Port to run Webserver on
+#############################
 WEBPORT = 6482
+#############################
 
 #Check to see if we're root
 if os.geteuid() != 0:
