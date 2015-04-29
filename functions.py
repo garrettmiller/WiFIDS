@@ -164,7 +164,7 @@ def senddeauthmail(recipients, timestamp, mac, client):
 	sender= "cmuwifids@gmail.com"
 	text = MIMEText("""A mass-deauthentication attack was detected against a protected AP. Details are as follows:
 
-	Time: """ + datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S') + """
+	Time (UTC): """ + datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S') + """
 	Affected AP: """ + str(mac) + """
 	Observed Client (Likely Spoofed): """ + client + """
 	
@@ -203,7 +203,7 @@ def sendintrudermail(recipients, path):
 	text = MIMEText("""An unauthorized intrusion was detected into the secure area.  Intruder details:
 
 	Location: Front Door
-	Time: """ + datetime.datetime.fromtimestamp(result[0]).strftime('%Y-%m-%d %H:%M:%S') + """
+	Time (UTC): """ + datetime.datetime.fromtimestamp(result[0]).strftime('%Y-%m-%d %H:%M:%S') + """
 	MAC Address: """ + str(result[1]) + """
 	Device Type: """ + result[4] + """
 
@@ -213,7 +213,7 @@ A photo of the intrusion is attached.
 	message['From'] = "WiFIDS <cmuwifids@gmail.com>"
 	message['To'] = str(', '.join(recipients))
 	message.attach(text)
-	image = MIMEImage(img_data, name=str(result[0]+'.jpg'))
+	image = MIMEImage(img_data, name=datetime.datetime.fromtimestamp(result[0]).strftime('%Y-%m-%d %H:%M:%S') + '.jpg')
 	message.attach(image)
 
 	try:
