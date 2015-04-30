@@ -2,9 +2,9 @@
 OUTSTANDING:
 ==========================================
 
-2015-04-28 - Garrett
-	Seems to be a long time between when motion is detected and when camera takes pictures.
-	Can we speed this up? Maybe remove some initialization steps?
+2015-04-29 - Garrett
+	"View Log" on web interface doesn't show the log - just the devplan.
+	To be fair, we're actually not logging at the moment. Maybe start making this happen on startup?
 
 2015-04-28 - Garrett
 	Sendmail on motion event fails if no unauthorized devices have been observed.
@@ -17,6 +17,10 @@ OUTSTANDING:
 ==========================================
 FIXED:
 ==========================================
+2015-04-28 - Garrett
+	Seems to be a long time between when motion is detected and when camera takes pictures.
+	Can we speed this up? Maybe remove some initialization steps?
+	Somewhat improved on 4-27-2015, but still not perfect.
 
 2015-03-19 - Garrett
 	An ESSID or Probe or OUI contains an 8-bit encoded character (unicode?)  Causes the following:

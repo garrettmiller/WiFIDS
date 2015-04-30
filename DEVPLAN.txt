@@ -6,7 +6,6 @@ implemented before moving upwards.)
 
 Tier 0:
 =========================
-Entry/Sensor Correlation
 
 Tier 1:
 =========================
@@ -32,6 +31,7 @@ Facial Recognition (offsite)
 ==========================================
 IMPLEMENTED:
 ==========================================
+Entry/Sensor Correlation
 Web GUI (is dope -Roger)
 Add authorized user via Web GUI
 Correlate "Real names" to device MAC

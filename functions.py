@@ -119,7 +119,7 @@ def soundBuzzer():
 	gpio.setwarnings(False)
 	gpio.setmode(gpio.BOARD)
 	gpio.setup(11,gpio.OUT)
-	for i in range(0,5):
+	for i in range(0,10):
 		gpio.output(11,0)
 		time.sleep(.05)
 		gpio.output(11,1)
