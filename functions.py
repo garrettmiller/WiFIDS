@@ -196,35 +196,39 @@ def sendintrudermail(recipients, path):
 	result = cursor.fetchone()
 	connection.close()
 
-	#Build the email
-	img_data = open(path).read()
-	message = MIMEMultipart()
-	sender= "cmuwifids@gmail.com"
-	text = MIMEText("""An unauthorized intrusion was detected into the secure area.  Intruder details:
+	#Ensure we've actually seen an unauthorized device, or else just print a result.
+	if result is not None:
+		#Build the email
+		img_data = open(path).read()
+		message = MIMEMultipart()
+		sender= "cmuwifids@gmail.com"
+		text = MIMEText("""An unauthorized intrusion was detected into the secure area.  Intruder details:
 
-	Location: Front Door
-	Time (UTC): """ + datetime.datetime.fromtimestamp(result[0]).strftime('%Y-%m-%d %H:%M:%S') + """
-	MAC Address: """ + str(result[1]) + """
-	Device Type: """ + result[4] + """
+		Location: Front Door
+		Time (UTC): """ + datetime.datetime.fromtimestamp(result[0]).strftime('%Y-%m-%d %H:%M:%S') + """
+		MAC Address: """ + str(result[1]) + """
+		Device Type: """ + result[4] + """
 
-A photo of the intrusion is attached.
-	""")
-	message['Subject'] = "[WiFIDS] Unauthorized Intrusion Detected!"
-	message['From'] = "WiFIDS <cmuwifids@gmail.com>"
-	message['To'] = str(', '.join(recipients))
-	message.attach(text)
-	image = MIMEImage(img_data, name=datetime.datetime.fromtimestamp(result[0]).strftime('%Y-%m-%d %H:%M:%S') + '.jpg')
-	message.attach(image)
+	A photo of the intrusion is attached.
+		""")
+		message['Subject'] = "[WiFIDS] Unauthorized Intrusion Detected!"
+		message['From'] = "WiFIDS <cmuwifids@gmail.com>"
+		message['To'] = str(', '.join(recipients))
+		message.attach(text)
+		image = MIMEImage(img_data, name=datetime.datetime.fromtimestamp(result[0]).strftime('%Y-%m-%d %H:%M:%S') + '.jpg')
+		message.attach(image)
 
-	try:
-		server = smtplib.SMTP('smtp.gmail.com:587')
-		server.starttls()
-		server.login('cmuwifids','thepythonrappers!')
-		server.sendmail(sender, recipients, str(message))
-		print "Successfully sent intruder email to " + str(', '.join(recipients))
-		server.quit()
-	except:
-		print "Error: unable to send intruder email to " + str(', '.join(recipients))
+		try:
+			server = smtplib.SMTP('smtp.gmail.com:587')
+			server.starttls()
+			server.login('cmuwifids','thepythonrappers!')
+			server.sendmail(sender, recipients, str(message))
+			print "Successfully sent intruder email to " + str(', '.join(recipients))
+			server.quit()
+		except:
+			print "Error: unable to send intruder email to " + str(', '.join(recipients))
+	else:
+		print "No unauthorized device detected, so photo logged, no email."
 
 # runsniffer() function is called each time Scapy receives a packet
 def runsniffer(p):
