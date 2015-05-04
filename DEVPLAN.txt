@@ -17,7 +17,7 @@ Abnormal Traffic Analysis "Why is Boss in office at 11pm?"
 
 Tier 3:
 =========================
-Historical Analysis
+Historical Analysis/Intel Report
 Traffic Logging/Analysis
 	Beacon Logging/Locating/Analysis
 	WIGLE Lookup?
