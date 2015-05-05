@@ -12,27 +12,26 @@ Tier 1:
 
 Tier 2:
 =========================
-Abnormal Traffic Analysis "Why is Boss in office at 11pm?"
-	Will likely require use of DB
 
 Tier 3:
 =========================
-Historical Analysis/Intel Report
-Traffic Logging/Analysis
-	Beacon Logging/Locating/Analysis
-	WIGLE Lookup?
 
 Brainstorm/Nice-to-have:
 =========================
 Add ability to track with multiple units.
 Physical Jam Detection
 Facial Recognition (offsite)
+Abnormal Traffic Analysis "Why is Boss in office at 11pm?"
+Historical Analysis/Intel Report
+Traffic Logging/Analysis
+	Beacon Logging/Locating/Analysis
+	WIGLE Lookup?
 
 ==========================================
 IMPLEMENTED:
 ==========================================
 Entry/Sensor Correlation
-Web GUI (is dope -Roger)
+Web GUI
 Add authorized user via Web GUI
 Correlate "Real names" to device MAC
 Use Database

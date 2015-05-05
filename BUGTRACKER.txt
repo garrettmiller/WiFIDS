@@ -2,10 +2,6 @@
 OUTSTANDING:
 ==========================================
 
-2015-04-29 - Garrett
-	"View Log" on web interface doesn't show the log - just the devplan.
-	To be fair, we're actually not logging at the moment. Maybe start making this happen on startup?
-
 2015-03-12 - Garrett
 	Motion detection is freaking out after a while and then triggering tons of events.  Not sure of cause yet.
 	Somewhat fixed, but not entirely on 2015-03-19. Counting a loop of image caps. Probably a better way. -Garrett
